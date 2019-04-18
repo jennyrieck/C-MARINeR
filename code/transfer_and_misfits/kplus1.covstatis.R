@@ -42,6 +42,7 @@ kplus1.covstatis <- function(Sk.array,Sk.target){
   cross.prod.cross.prod <- dbl.cent.X <- array(NA,dim=c(dim(Sk.array)))
   Zmat <- matrix(NA,dim(Sk.array)[1]*dim(Sk.array)[2],dim(Sk.array)[3])
   
+    ## could probably benefit from a do.call()
   for(i in 1:dim(Sk.array)[3]){
     
     dbl.cent.X[,,i] <- double.center.cov(Sk.array[,,i])
