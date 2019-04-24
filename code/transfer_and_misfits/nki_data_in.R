@@ -1,14 +1,5 @@
 nki.dir<-'C:/Users/jenny/Downloads/NKI_Rockland/'
 
-# ### All the noGSR functional connectivity matrices:
-# 
-# fmri.conn.fns<-list.files(nki.dir,'fcMRI_noGSR_connectivity_matrix_file')
-# ids<-gsub('_fcMRI_noGSR_connectivity_matrix_file.txt','',fmri.conn.fns)
-# 
-# i<-1
-# 
-# this.conn<-read.table(paste0(nki.dir,fmri.conn.fns[3]))
-
 ## read in metadata to find ages
 metadata<-read.csv('C:/Users/jenny/Downloads/NKI_Rockland_csv')
 metadata.fmri<-metadata[intersect(which(metadata$upload_data.imaging_modality=='fMRI'),
@@ -44,6 +35,7 @@ roi.labs<-gsub('Lateral','lat',roi.labs)
 roi.labs<-gsub('Medial','med',roi.labs)
 roi.labs<-gsub('fusiform','fusi',roi.labs)
 
+roi.labs[duplicated(roi.labs)]<-paste0(roi.labs[duplicated(roi.labs)],'.',seq(1:sum(duplicated(roi.labs))))
 
 conn.cube.YA<-array(NA,dim=c(length(roi.labs),length(roi.labs),length(YA.ids)))
 rownames(conn.cube.YA) <- colnames(conn.cube.YA) <- roi.labs
@@ -70,7 +62,6 @@ for(o in 1:length(OA.ids)){
   #  print(dim(this.conn))
 }
 
-save(conn.cube.YA, conn.cube.OA, conn.cube.tog,random.network.design, file='connectivity_cubes.rda')
 
 rand.network<-sample(c(1:7),188,replace=T)
 random.network.design<-paste0('Network',rand.network)
@@ -79,6 +70,10 @@ conn.cube.tog<-array(NA,dim=c(length(roi.labs),length(roi.labs),length(YA.ids)+l
 rownames(conn.cube.tog) <- colnames(conn.cube.tog) <- roi.labs
 conn.cube.tog[,,1:10]<-conn.cube.YA
 conn.cube.tog[,,11:20]<-conn.cube.OA
+
+save(conn.cube.YA, conn.cube.OA, conn.cube.tog,random.network.design, file='connectivity_cubes.rda')
+
+
 
 meanCube<-apply(conn.cube.tog,c(1,2),mean)
 
