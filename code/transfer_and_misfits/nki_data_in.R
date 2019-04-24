@@ -68,18 +68,20 @@ conn.cube.tog[,,1:10]<-conn.cube.YA
 conn.cube.tog[,,11:20]<-conn.cube.OA
 
 
-meanCube<-apply(conn.cube.tog,c(1,2),mean)
+#meanCube<-apply(conn.cube.tog,c(1,2),mean)
 
 ### random network assignments
 #rand.network<-sample(c(1:7),188,replace=T)
 #random.network.design<-paste0('Network',rand.network)
 ### network assignment based on clustering of the average
 
-distMeanCube<-1-meanCube
+meanConn<-read.table(paste0(nki.dir, 'NKI_fc_avg_connectivity_matrix_file.txt'))
 
-distMeanCube[upper.tri(distMeanCube)]<-NA
+distMeanConn<-1-meanConn
 
-clusters <- cutree(hclust(as.dist(distMeanCube), method = "ward.D2"),k = 7)
+distMeanConn[upper.tri(distMeanConn)]<-NA
+
+clusters <- cutree(hclust(as.dist(distMeanConn), method = "ward.D2"),k = 7)
 
 network7.design<-paste0('Network',clusters)
 save(conn.cube.YA, conn.cube.OA, conn.cube.tog,network7.design, file='connectivity_cubes.rda')
