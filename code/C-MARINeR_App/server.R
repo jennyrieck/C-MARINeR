@@ -41,8 +41,8 @@ shinyServer(function(input, output) {
     prettyPlot(statis.res()$res4Splus$F, x_axis = isolate(input$fp_xaxis), y_axis = isolate(input$fp_yaxis),
                col=roi.design.colors$oc,cex=1.5,dev.new=F,
                display_names = isolate(input$fp_labels),
-               xlab=paste0('Component ', isolate(input$fp_xaxis), ': ', test.res$res4Splus$tau[isolate(input$fp_xaxis)], '% variance explained'),
-               ylab=paste0('Component ', isolate(input$fp_yaxis), ': ', test.res$res4Splus$tau[isolate(input$fp_yaxis)], '% variance explained'))
+               xlab=paste0('Component ', isolate(input$fp_xaxis), ': ', statis.res()$res4Splus$tau[isolate(input$fp_xaxis)], '% variance explained'),
+               ylab=paste0('Component ', isolate(input$fp_yaxis), ': ', statis.res()$res4Splus$tau[isolate(input$fp_yaxis)], '% variance explained'))
     legend('topright',row.names(roi.design.colors$gc),fill=roi.design.colors$gc)
     
     ## Herve's plotting
