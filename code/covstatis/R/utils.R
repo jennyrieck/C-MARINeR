@@ -2,6 +2,41 @@
 
 
 ##
+#' @export
+#'
+#' @title \code{is.ss.matrix}: test if a matrix square and symmetric matrix
+#'
+#' @description \code{is.ss.matrix} takes a matrix and tests if it is a square and symmetric matrix
+#'
+#' @param x A matrix to test.
+#' @param tol Tolerance precision to eliminate all abs(x) values below \code{tol}. Default is \code{.Machine$double.eps}.
+#'
+#' @return A boolean. TRUE if the matrix is a square and symmetric matrix, FALSE if the matrix is not.
+
+is.ss.matrix <- function(x,tol=.Machine$double.eps){
+
+  if(is.null(dim(x)) | !is.matrix(x)){
+    stop("is.sspsd.matrix: X is not a matrix.")
+  }
+  x[ x^2 < tol ] <- 0
+
+  ## square
+  if(nrow(x)!=ncol(x)){
+    return(FALSE)
+  }
+  ## symmetric
+  if(!isSymmetric.matrix(x, tol=tol)){
+    return(FALSE)
+  }
+  # ## positive semi definite
+  # eigen.values <- eigen(x, symmetric = T, only.values = T)$values
+  # if(any(eigen.values < 0 & abs(eigen.values) > tol)){
+  #   return(FALSE)
+  # }
+
+  return(TRUE)
+
+}
 
 #' @export
 #'
