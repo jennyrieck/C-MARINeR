@@ -62,20 +62,30 @@ for(o in 1:length(OA.ids)){
   #  print(dim(this.conn))
 }
 
-
-rand.network<-sample(c(1:7),188,replace=T)
-random.network.design<-paste0('Network',rand.network)
-
 conn.cube.tog<-array(NA,dim=c(length(roi.labs),length(roi.labs),length(YA.ids)+length(OA.ids)))
 rownames(conn.cube.tog) <- colnames(conn.cube.tog) <- roi.labs
 conn.cube.tog[,,1:10]<-conn.cube.YA
 conn.cube.tog[,,11:20]<-conn.cube.OA
 
-save(conn.cube.YA, conn.cube.OA, conn.cube.tog,random.network.design, file='connectivity_cubes.rda')
-
-
 
 meanCube<-apply(conn.cube.tog,c(1,2),mean)
+
+### random network assignments
+#rand.network<-sample(c(1:7),188,replace=T)
+#random.network.design<-paste0('Network',rand.network)
+### network assignment based on clustering of the average
+
+distMeanCube<-1-meanCube
+
+distMeanCube[upper.tri(distMeanCube)]<-NA
+
+clusters <- cutree(hclust(as.dist(distMeanCube), method = "ward.D2"),k = 7)
+
+network7.design<-paste0('Network',clusters)
+save(conn.cube.YA, conn.cube.OA, conn.cube.tog,network7.design, file='connectivity_cubes.rda')
+
+
+
 
 
 
