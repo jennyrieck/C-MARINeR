@@ -53,7 +53,13 @@ covstatis <- function(cov_matrices, table_norm_type = c("SS1")){
 
   ## then test for psd? can that be integrated with the norm?
   # norm all matrices
-  norm_tables(cov_matrices, table_norm_type)
+  cov_matrices <- norm_tables(cov_matrices, table_norm_type)
 
+  ## unsure whether to do this here or call off to a function.
+    # I want to preserve Z or C
+  ## compute C
+  # Z_matrix <- do.call(cbind,lapply(cov_matrices, c))
+  # Z_matrix_svd <- eigen(C_matrix)
+  # Z_matrix_svd$v[,1] / sum(Z_matrix_svd$v[,1])
 
 }
