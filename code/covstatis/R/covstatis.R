@@ -1,4 +1,6 @@
-covstatis <- function(cov_matrices, are_distances=FALSE){
+covstatis <- function(cov_matrices, table_norm_type = c("SS1")){
+
+  ## actually I think I'd prefer to keep these as a list for now...
 
   ## preliminary checks.
   if(is.list(cov_matrices)){
@@ -6,8 +8,8 @@ covstatis <- function(cov_matrices, are_distances=FALSE){
     if(any(!unlist(lapply(cov_matrices, is.ss.matrix)))){
       stop("At least one item in the 'cov_matrices' list was not a square & symmetric matrix.")
     }else{
-      cov_matrices_is_list <- TRUE
-      # cov_matrices <- simplify2array(cov_matrices)
+      #cov_matrices_is_list <- TRUE
+      cov_matrices <- simplify2array(cov_matrices)
     }
 
   }
@@ -17,39 +19,35 @@ covstatis <- function(cov_matrices, are_distances=FALSE){
     }
   }
 
-    ## we won't deal with distances at this time... only cov/cors
-  if(are_distances){
-    # diagonal must be 0
-  }
-  if(!are_distances){
-    # diagonal must not be 0
-  }
   ## note: cmdscale does this:
+    ## part of this is useful for covstatis, all of it for distatis
   # x <- as.matrix(d^2)
   # x <- .Call(C_DoubleCentre, x)
   # e <- eigen(-x/2, symmetric = TRUE)
 
-  ## steps:
-  # (1) take in correlation, covariance, or distance matrices
-    # (1a) convert distance to covariance
-    # (1b) convert cov/cor to crossproduct matrices
-  # (2) perform sspsd tests
-  # (3) normalize each matrix
-  # (4) run cross-product STATIS
-    # lots of steps here.
+  # a large question: should the masses apply to each table, or only as consideration for the compromise?
+    ## I believe for now it's best for just the compromise, as the masses are intended to constrain the model
+    ## *if* there is some normalization needed per table, the user must handle that on their own.
 
-  # note: steps 1 and 3 could possibly be switched in the case of covariance matrices
-    ## but I think it's better to norm after we've done all of our steps.
+  # steps (after checks):
+  # (0) double center each R table as S
+  # (1) Normalize each table (consider inclusion of masses)
+    # (a) MFA or
+    # (b) sqrt SS of each element (default)
+  # (2) Compute C / alpha weights (consider inclusion of masses)
+    # (a) C = ZZt = [vec{S}...vec{S}][vec{S}...vec{S}]t
+    # (b) eigen(C) (return & visualize C?)
+    # (c) alpha = u / sum(u)
+  # (3) Compute STATIS
+    # (a) S+ = sum a*S
+    # (b) eigen(S+) or geigen(S,M)
 
 
-  ## go back and walk through all the statis steps...
+  # double center all matrices...
 
-
-  ## cross product STATIS is:
-    # (1) we need a bunch of cross-product matrices (Sk)
-    # (2) we need the alphas of the Sks
-    # (3) compromise
-    # (4) (generalized?) eigen
+  ## then test for psd? can that be integrated with the norm?
+  # norm all matrices
+  norm_tables(cov_matrices, table_norm_type)
 
 
 }
