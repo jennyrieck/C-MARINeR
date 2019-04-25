@@ -43,7 +43,13 @@ covstatis <- function(cov_matrices, table_norm_type = c("SS1")){
     # (b) eigen(S+) or geigen(S,M)
 
 
+  ## I should overload the methods... i.e., double_center(list, ) or double_center(matrix, )
+  ## I should actually just finish the core of this then deal with that.
+
   # double center all matrices...
+  cov_matrices <- lapply(cov_matrices, double_center_sspsd)
+    ## alt:
+     # cov_matrices <- sapply(cov_matrices, double_center_sspsd, simplify = FALSE, USE.NAMES = TRUE)
 
   ## then test for psd? can that be integrated with the norm?
   # norm all matrices
