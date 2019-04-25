@@ -21,5 +21,5 @@ normalize_tables <- function(cov_matrices, table_norm_type = c("SS1")){
   # cov_matrices
 
     ## I wish something like this would work...
-  sapply(cov_m, normalize_a_table, table_norm_type = table_norm_type, simplify = FALSE, USE.NAMES = TRUE)
+  sapply(cov_matrices, normalize_a_table, table_norm_type = table_norm_type, simplify = FALSE, USE.NAMES = TRUE)
 }
