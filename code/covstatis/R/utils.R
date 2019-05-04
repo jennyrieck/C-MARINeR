@@ -89,7 +89,6 @@ is.sspsd.matrix <- function(x,tol=.Machine$double.eps){
 #'
 #' @return The (possibly lower rank) raised to an arbitrary \code{power} version of \code{x}
 #'
-#' @seealso \code{\link{tolerance.svd}} and \code{\link{matrix.generalized.inverse}}
 #'
 #' @examples
 #'  data(wine)
@@ -180,4 +179,41 @@ matrix.exponent <- function(x, power = 1, k = 0, ...){
 #'
 `%^%` <- function(x,power){
   matrix.exponent(x,power=power)
+}
+
+
+#' @export
+#'
+#' @title Eigendecomposition tolerance corrections
+#'
+#' @description takes the results of an eigen decomposition and drops vectors and values below
+#' tolerance threshold
+#'
+#' @param eigen_tolerance results from \code{eigen()}
+#' @param tol Tolerance precision to eliminate all abs(x) values below \code{tol}. Default is \code{1e-12}.
+#'
+#' @return \code{eigen_tolerance} corrected for tolerance (if necessary)
+#'
+#' @seealso \code{\link{eigen}}
+#'
+#'
+#' @author Derek Beaton
+#'
+#' @keywords multivariate, diagonalization, eigen
+#'
+eigen_tolerance <- function(eigen_results, tol=1e-12){
+
+  ## ensure eigen_results has $vectors and $values
+
+  if(any(eigen_results$values < 0 & abs(eigen_results$values) > tol)){
+    stop("eigen_tolerance: negative eigenvalues detected. Cannot proceed.")
+  }
+
+  ## check for low eigenvalues only.
+  if(any(eigen_results$values < tol)){
+    vectors_kept <- which(eigen_results$values > tol)
+    eigen_results$values <- eigen_results$values[vectors_kept]
+    eigen_results$vectors <- eigen_results$vectors[,vectors_kept]
+  }
+  eigen_results
 }

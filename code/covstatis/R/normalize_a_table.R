@@ -1,5 +1,7 @@
 normalize_a_table <- function(sspsd_table, table_norm_type = c("SS1")){
 
+  ## on entry, need to ensure we have a square symmetric matrix
+
   valid_table_norm_types <- c("SS1","MFA","none")
 
   if(length(table_norm_type) > 1){
@@ -24,7 +26,11 @@ normalize_a_table <- function(sspsd_table, table_norm_type = c("SS1")){
     return(sspsd_table / sqrt(sum(sspsd_table^2)))
   }
   if(table_norm_type=="MFA"){
-    return(sspsd_table / eigen(sspsd_table)$values[1])
+    eigen_results <- eigen(sspsd_table, symmetric = TRUE)
+    if(any(eigen_results$values < 0 & abs(eigen_results$values) > tol)){
+      stop("normalize_a_table (MFA normalization): matrix is not positive-semi definite (i.e., strictly non-negative eigenvalues).")
+    }
+    return(sspsd_table / eigen_results$values[1])
   }
   sspsd_table
 
