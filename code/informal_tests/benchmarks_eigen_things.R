@@ -56,11 +56,11 @@ mbm
 
 mbm <- microbenchmark(
   "scores1" = {
-    eigen_res <- eigen(cor(matrix(rnorm(1000), 100, 10)), symmetric = TRUE)
+    eigen_res <- eigen(cor(matrix(rnorm(5000), 100, 50)), symmetric = TRUE)
     (eigen_res$vectors %*% diag(sqrt(eigen_res$values)))
   },
   "scores2" = {
-    eigen_res <- eigen(cor(matrix(rnorm(1000), 100, 10)), symmetric = TRUE)
+    eigen_res <- eigen(cor(matrix(rnorm(5000), 100, 50)), symmetric = TRUE)
     (eigen_res$vectors %>% sweep(., 2, sqrt(eigen_res$values),"*"))
   }, times = 1000
 )

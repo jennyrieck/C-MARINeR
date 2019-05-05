@@ -1,4 +1,4 @@
-normalize_a_table <- function(sspsd_table, table_norm_type = c("SS1")){
+normalize_a_table <- function(sspsd_table, table_norm_type = "SS1", tol=1e-12){
 
   ## on entry, need to ensure we have a square symmetric matrix
 

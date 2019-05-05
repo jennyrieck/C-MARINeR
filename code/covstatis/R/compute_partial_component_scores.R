@@ -1,6 +1,6 @@
-compute_partial_component_scores <- function(cov_matrices, compromise_eigen_results){
+compute_partial_component_scores <- function(cov_matrices, compromise_eigen){
 
-  (compromise_eigen_results$vectors %*% diag(1/sqrt(compromise_eigen_results$values))) ->
+  (compromise_eigen$vectors %*% diag(1/sqrt(compromise_eigen$values))) ->
     projection_matrix
 
   sapply(cov_matrices,

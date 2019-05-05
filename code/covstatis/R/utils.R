@@ -13,7 +13,7 @@
 #'
 #' @return A boolean. TRUE if the matrix is a square and symmetric matrix, FALSE if the matrix is not.
 
-is.ss.matrix <- function(x,tol=.Machine$double.eps){
+is_ss_matrix <- function(x,tol=.Machine$double.eps){
 
   if(is.null(dim(x)) | !is.matrix(x)){
     stop("is.sspsd.matrix: X is not a matrix.")
@@ -28,12 +28,32 @@ is.ss.matrix <- function(x,tol=.Machine$double.eps){
   if(!isSymmetric.matrix(x, tol=tol)){
     return(FALSE)
   }
-  # ## positive semi definite
-  # eigen.values <- eigen(x, symmetric = T, only.values = T)$values
-  # if(any(eigen.values < 0 & abs(eigen.values) > tol)){
-  #   return(FALSE)
-  # }
 
+  return(TRUE)
+
+}
+
+
+is_ss_dist_matrix <- function(x,tol=.Machine$double.eps){
+
+  if(is.null(dim(x)) | !is.matrix(x)){
+    stop("is.sspsd.matrix: X is not a matrix.")
+  }
+  x[ x^2 < tol ] <- 0
+
+  ## square
+  if(nrow(x)!=ncol(x)){
+    return(FALSE)
+  }
+  ## symmetric
+  if(!isSymmetric.matrix(x, tol=tol)){
+    return(FALSE)
+  }
+  ## diagonals are 0s
+  # if( !identical(diag(x),rep(0,ncol(x))) ){
+  if( abs(sum(diag(x)-rep(0,ncol(x)))) > tol){
+    return(FALSE)
+  }
   return(TRUE)
 
 }
@@ -49,7 +69,7 @@ is.ss.matrix <- function(x,tol=.Machine$double.eps){
 #'
 #' @return A boolean. TRUE if the matrix is a square, symmetric, and positive semi-definite (sspsd) matrix, FALSE if the matrix is not.
 
-is.sspsd.matrix <- function(x,tol=.Machine$double.eps){
+is_sspsd_matrix <- function(x,tol=.Machine$double.eps){
 
   if(is.null(dim(x)) | !is.matrix(x)){
     stop("is.sspsd.matrix: X is not a matrix.")
@@ -108,7 +128,7 @@ is.sspsd.matrix <- function(x,tol=.Machine$double.eps){
 #' @keywords multivariate, diagonalization, eigen
 
 #matrix.exponent <- me <- m.e <- function(x, power = 1, k = 0, ...){
-matrix.exponent <- function(x, power = 1, k = 0, ...){
+matrix_exponent <- function(x, power = 1, k = 0, ...){
 
   ##stolen from MASS::ginv()
   if (length(dim(x)) > 2L || !(is.numeric(x) || is.complex(x)))
@@ -216,4 +236,11 @@ eigen_tolerance <- function(eigen_results, tol=1e-12){
     eigen_results$vectors <- eigen_results$vectors[,vectors_kept]
   }
   eigen_results
+}
+
+
+### this is stolen from https://stackoverflow.com/questions/20198751/three-dimensional-array-to-list
+array2list <- function(a){
+  setNames(lapply(split(a, arrayInd(seq_along(a), dim(a))[, 3]),
+                  array, dim = dim(a)[-3], dimnames(a)[-3]),dimnames(a)[[3]])
 }
