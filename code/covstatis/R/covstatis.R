@@ -1,5 +1,5 @@
 
-covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE){
+covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE){
 
   ## everything is list based for now
 
@@ -61,20 +61,32 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
     partial_component_scores
 
   # (5) compute weighted partial (table) component scores
-  compute_weighted_partial_component_scores(partial_component_scores, alpha_weights) ->
-    weighted_partial_component_scores
+    ### removed for now.
+  # compute_weighted_partial_component_scores(partial_component_scores, alpha_weights) ->
+  #   weighted_partial_component_scores
 
   ## major question left:
     ## which is more appropriate to visualize: partial or (correctly) weighted partials?
     ## to think about; requires going back to compute_weighted_partial_component_scores and making a decision
 
   ## considering renaming these to match the STATIS paper.
-  return(list(
-    compromise_matrix = compromise_matrix,
-    compromise_eigen = compromise_eigen,
-    compromise_component_scores = compromise_component_scores,
-    partial_component_scores = partial_component_scores,
-    weighted_partial_component_scores = weighted_partial_component_scores
-  ))
+  if(compact){
+    return(list(
+      compromise_matrix = compromise_matrix,
+      compromise_eigen = compromise_eigen,
+      compromise_component_scores = compromise_component_scores,
+      partial_component_scores = partial_component_scores
+      # weighted_partial_component_scores = weighted_partial_component_scores
+    ))
+  }else{
+    return(list(
+      cov_matrices = cov_matrices,
+      compromise_matrix = compromise_matrix,
+      compromise_eigen = compromise_eigen,
+      compromise_component_scores = compromise_component_scores,
+      partial_component_scores = partial_component_scores
+      # weighted_partial_component_scores = weighted_partial_component_scores
+    ))
+  }
 
 }

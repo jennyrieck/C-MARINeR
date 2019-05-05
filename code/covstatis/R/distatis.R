@@ -1,4 +1,4 @@
-distatis <- function(squared_dist_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE){
+distatis <- function(squared_dist_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE){
 
   if(is.array(squared_dist_matrices)){
     if(nrow(squared_dist_matrices)!=ncol(squared_dist_matrices)){
