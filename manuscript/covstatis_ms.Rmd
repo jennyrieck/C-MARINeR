@@ -1,0 +1,149 @@
+---
+title             : "CovSTATIS: The basis of multi-table techniques for group and individual connectivity analyses"
+shorttitle        : "CovSTATIS for connectivity"
+
+author: 
+  - name          : "Jenny Rieck"
+    affiliation   : "1"
+  - name          : "Derek Beaton"
+    affiliation   : "1"
+
+affiliation:
+  - id            : "1"
+    institution   : "Rotman Research Institute, Baycrest Health Sciences"
+
+authornote: |
+  An author note
+
+abstract: |
+  Some abstract
+  
+keywords          : "keywords"
+wordcount         : "X"
+
+bibliography      : ["r-references.bib"]
+
+floatsintext      : no
+figurelist        : no
+tablelist         : no
+footnotelist      : no
+linenumbers       : yes
+mask              : no
+draft             : no
+
+documentclass     : "apa6"
+classoption       : "man"
+output            : papaja::apa6_pdf
+---
+
+```{r setup, include = FALSE}
+library("papaja")
+```
+
+```{r analysis-preferences}
+# Seed for random number generation
+set.seed(42)
+knitr::opts_chunk$set(cache.extra = knitr::rand_seed)
+```
+
+# Introduction
+
+# Methods
+<!-- We used `r cite_r("r-references.bib")` for all our analyses. -->
+
+## CovSTATIS
+
+Here we primarily describe CovSTATIS, followed briefly by an explanation of CovSTATIS for distance matrices (DiSTATIS). We then discuss an extension of both techniques called "K+1 CovSTATIS" and "K+1 DiSTATIS", respectively, where there is an external or additional "target" table (the "$K+1$" amongst $K$ tables). 
+
+### Notation
+
+<!-- Stolen from PLSCAR paper -->
+
+Our notation rougly matches that of (CITE), but introduces slight differences and new information for our particular explanation. Bold uppercase letters denotes matrices (e.g., $\mathbf{R}$), bold lowercase letters denote vectors (e.g., $\bf{r}$), and italic lowercase letters denote specific elements (e.g., $r$). Upper case italic letters denote cardinality, size, or length (e.g., $I$). For example, ${\bf R}$ is an $I \times I$ matrix, which has $I$ rows and $I$ columns. Lower case subscript italic denotes a specific index (e.g., $_i$). A generic element of $\mathbf{R}$ at the $_{i}$th row and $_{j}$th column is $x_{i,j}$. Common letters of varying type faces, for example ${\bf R}$, $\bf{r}$, $r_{i,j}$, come from the same data struture. Vectors are assumed to be column vectors unless otherwise specified. Two matrices side-by-side denotes standard matrix multiplication (e.g., $\bf{R}\bf{Z}$), where $\odot$ denotes element-wise (Hadamard) multiplication where $\oslash$ denotes element-wise (Hadamard) division. Superscript $^{T}$ denotes the transpose operation, superscript $^{-1}$ denotes standard matrix inversion, and superscript $^{+}$ denotes the Moore-Penrose pseudo-inverse. The diagonal operation, $\mathrm{diag\{\}}$, transforms a vector into a diagonal matrix, or extracts the diagonal of a matrix and produces a vector. The vectorize operation, $\mathrm{vec\{\}}$, transforms a matrix into a column vector.
+
+The following letters have reserved and specific meanings. ${\bf I}$ denotes the identity matrix.  ${\bf R}$ denotes a generic but individual covariance (or correlation) matrix, where ${\bf R}_{[k]}$ denotes the $_k$th covariance matrix in a set of $K$ covariance matrices. ${\bf S}$ denotes a generic but individual cross-product matrix, where ${\bf S}_{[k]}$ denotes the $_k$th covariance matrix in a set of $K$ covariance matrices. ${\bf D}$ denotes a generic but individual distance matrix, where ${\bf D}_{[k]}$ denotes the $_k$th covariance matrix in a set of $K$ covariance matrices. ${\bf L}$ is an external ("K+1") covariance matrix of exactly the same size as any of the ${\bf R}_{[k]}$ matrices. We discuss the properties of these tables when needed.
+
+
+### CovSTATIS
+
+CovSTATIS is a particular form of cross-product STATIS that works for covariance (or correlation or equivalent) matrices. By definition, all individual connectivity matrices must meet the following conditions: (1) square (same number of rows and columns), (2) symmetric (upper and lower off-diagonal triangles are identical), and (3) that after a single preprocessing step (double centering), each matrix is positive semi-definite (strictly non-negative eigenvalues) just as in standard PCA and related techniques (CITE).
+
+For simplicity let us assume the use of correlation matrices (which are covariance matrices of normalized column vectors). <!-- show a heatmap of a correlation matrix? --> First, each ${\bf R}_{[k]}$ must be converted to a cross-product matrix through double centering. We denote a centering matrix as ${\boldsymbol \Xi} = \mathbf{I} - \mathbf{1}(I^{-1})\mathbf{1}^{T}$. We then double center each ${\bf R}_{[k]}$ to convert them to cross-product matrices as
+
+\begin{equation}
+{\bf S}_{[k]} = \frac{1}{2}{\boldsymbol \Xi}{\bf R}_{[k]}{\boldsymbol \Xi}.
+\end{equation}
+
+Next, each $I \times I$ ${\bf R}_{[k]}$ matrix is normalized to account for different variance per each of the $K$ tables. In general there are three strategies: no normalization (if the assumed variance per table is roughly equal), to normalize each table such that the sum of all squared elements equals 1, or a dividing each table by its first eigenvalue (i.e., "MFA normalization"). While there are other normalization strategies, these are the most typically used; see (CITE, CITE) for more details on normalization strategies per table in multi-table PCA-like analyses. Thus we assume that each ${\bf S}_{[k]}$ is a normalized cross product matrix. MFA normalization is the preferred normalization approach.
+
+We then must compute a similarity between all pairs of matrices in order to obtain "$\alpha$ weights" for each table. We first vectorize all ${\bf S}_{[k]}$ matrices and store each column vector in a new matrix as
+
+\begin{equation}
+\mathbf{Z} = [ \mathrm{vec\{ {\bf S}_{[1]}, \dots, {\bf S}_{[k]}, \dots, {\bf S}_{[K]}   \}} ]
+\end{equation}
+
+where $\mathbf{Z}$ is of size $I^{2} \times K$ and $\mathbf{C} = \mathbf{Z}^{T}\mathbf{Z}$. We can obtain the $\alpha$ weights in one of two ways: (1) through the eigenvalue decomposition (EVD) of $\mathbf{C}$ as $\mathbf{C} = \mathbf{V}\boldsymbol{\Theta}\mathbf{V}^{T}$ or alternatively through the singular value decomposition (SVD) of ${\mathbf Z}$:
+
+\begin{equation}
+\mathbf{Z} = \mathbf{U}\boldsymbol{\Delta}\mathbf{V}^{T}.
+\end{equation}
+The $\mathbf{V}$ in both the EVD or SVD approaches are equivalent, and $\boldsymbol{\Delta}^2 = \boldsymbol{\Theta}$. We compute the $\alpha$ weights from the first vector of $\mathbf{V}$. To note, all elements in the first vector of $\mathbf{V}$ have the same sign and reflect overall similarity; the large the value the more similar that table is to all other tables. We compute the $alpha$ weights as 
+
+\begin{equation}
+\boldsymbol{\alpha} = \mathbf{v}_{1}  \times (\mathbf{v}_{1}^{T}\mathbf{1})^{-1}
+\end{equation}
+
+Alternatively we can compute similarity between the normalized (i.e., Z-scored) column vectors of $\mathbf{Z}$, which is equivalent to  computing the Rv coefficient (CITE) between each table. This Rv-similarity is the preferred approach to compute the $\alpha$ weights.
+
+We then compute the compromise cross-product matrix as
+
+\begin{equation}
+\mathbf{S}_{[+]} = \sum\limits_{i=1}^K \alpha_{k}\mathbf{S}_{[k]}.
+\end{equation}
+
+Finally we decompose $\mathbf{S}_{[+]}$ with the EVD as follows
+
+\begin{equation}
+\mathbf{S}_{[+]} = \mathbf{Q}\boldsymbol{\Lambda}\mathbf{Q}^{T}.
+\end{equation}
+
+
+
+[Algorithm goes here]
+1. Double center each
+
+2. Normalize
+
+3. Check SSPSD
+
+4. Vectorize to obtain Z
+
+5. Get $\alpha$ from svd(Z)
+
+6. Compute S+ compromise
+
+7. eigen(S+)
+
+8. Compute compromise component scores
+
+9. Compute partial component scores
+
+
+# Results
+
+# Discussion
+
+
+\newpage
+
+# References
+```{r create_r-references}
+r_refs(file = "r-references.bib")
+```
+
+\begingroup
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+
+<div id = "refs"></div>
+\endgroup
