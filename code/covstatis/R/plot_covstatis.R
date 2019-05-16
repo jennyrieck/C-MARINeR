@@ -24,8 +24,10 @@ plot_covstatis <- function(fi,fis,fi.cols=NULL,fis.cols=NULL,axes=c(1,2),display
       text(fis[,axes,j],labels=dimnames(fis)[[3]][j],offset=.75,pos=3,col=fis.cols)	
     }
   }
+  
   points(fi[,axes],col=fi.cols,pch=20,cex=2)
   if(display.fi.names){
     text(fi[,axes],labels=rownames(fi),offset=.75,pos=3,col=fi.cols)
   }
+  
 }
