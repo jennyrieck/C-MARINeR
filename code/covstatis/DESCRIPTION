@@ -2,8 +2,7 @@ Package: covstatis
 Type: Package
 Title: covSTATIS
 Version: 0.1.0.0
-Authors@R: c(person("Jenny","Rieck",role=c("aut")),
-              person("Derek","Beaton",role=c("aut","cre"),email="exposition.software@gmail.com"))
+Authors@R: c(person("Jenny","Rieck",role=c("aut")),person("Derek","Beaton",role=c("aut","cre"),email="exposition.software@gmail.com"))
 Maintainer: Derek Beaton <exposition.software@gmail.com>
 Description: covSTATIS
 License: GPL-3
