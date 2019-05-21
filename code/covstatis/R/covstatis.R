@@ -15,7 +15,8 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
 
   if(is.list(cov_matrices)){
     if(any(!sapply(cov_matrices, is_ss_matrix))){
-      stop("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
+      # stop("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
+      warning("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
     }
   }
 
@@ -52,9 +53,15 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
   #   eigen_tolerance(.) ->
   #   compromise_eigen
 
-  # eigen(compromise_matrix, ) %>%
+  # (4) eigen of compromise
+  # compromise_matrix %>%
+  #   tolerance.eigen(., tol=tolerance, symmetric = TRUE) ->
+  #   compromise_eigen
+
+  # (4) eigen of compromise
+    ## goddamnit. not all connectivity matrices are PSD. they should be, but aren't.
   compromise_matrix %>%
-    tolerance.eigen(., tol=tolerance, symmetric = TRUE) ->
+    eigen(., symmetric = TRUE) ->
     compromise_eigen
 
 
