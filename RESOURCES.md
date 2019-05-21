@@ -25,3 +25,8 @@ Want to help the C-MARINeR Team, but aren't sure where to start? Here are some r
 
 * [How to avoid having Jenny Bryan set your computer on fire](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/)
 * Find open source freely distributable connectivity data (akin to what is available at http://umcd.humanconnectomeproject.org/) See Issue #3
+* See our [issues page](https://github.com/jennyrieck/C-MARINeR/issues) for more projects
+
+**All things STATIS**
+
+* [Abdi et al., STATIS and DISTATIS](https://www.utdallas.edu/~herve/abdi_Wires_AWVB2012_Final.pdf)
