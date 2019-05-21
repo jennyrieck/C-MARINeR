@@ -45,3 +45,11 @@ or
 ``` r
 devtools::install_github("derekbeaton/GSVD")
 ```
+
+**covSTATIS package**
+
+You'll need to install the package to use it, or, to clone the git repository and open it from the .Rproj file. From the .Rproj file, you can use `devools::load_all()` to load the development version of the package from your directory.
+
+``` r
+ devtools::install_github("jennyrieck/C-MARINeR", subdir = "/code/covstatis")
+```
