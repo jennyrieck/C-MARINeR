@@ -24,3 +24,4 @@ Want to help the C-MARINeR Team, but aren't sure where to start? Here are some r
 **Projects**
 
 * [How to avoid having Jenny Bryan set your computer on fire](https://www.tidyverse.org/articles/2017/12/workflow-vs-script/)
+* Find open source freely distributable connectivity data (akin to what is available at http://umcd.humanconnectomeproject.org/) See Issue #3
