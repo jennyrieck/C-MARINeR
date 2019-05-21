@@ -30,3 +30,8 @@ Want to help the C-MARINeR Team, but aren't sure where to start? Here are some r
 **All things STATIS**
 
 * [Abdi et al., STATIS and DISTATIS](https://www.utdallas.edu/~herve/abdi_Wires_AWVB2012_Final.pdf)
+
+**Package Development**
+
+* [devtools cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf)
+* [roxygen (for manuals, etc...)](https://cran.r-project.org/web/packages/roxygen2/vignettes/roxygen2.html)
