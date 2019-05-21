@@ -37,6 +37,7 @@ Want to help the C-MARINeR Team, but aren't sure where to start? Here are some r
 * [roxygen (for manuals, etc...)](https://cran.r-project.org/web/packages/roxygen2/vignettes/roxygen2.html)
 
 **Package dependencies**
+* [magrittr](https://cran.r-project.org/web/packages/magrittr/vignettes/magrittr.html)
 * [GSVD](https://github.com/derekbeaton/gsvd)
 
 or
