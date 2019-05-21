@@ -35,3 +35,12 @@ Want to help the C-MARINeR Team, but aren't sure where to start? Here are some r
 
 * [devtools cheat sheet](https://www.rstudio.com/wp-content/uploads/2015/03/devtools-cheatsheet.pdf)
 * [roxygen (for manuals, etc...)](https://cran.r-project.org/web/packages/roxygen2/vignettes/roxygen2.html)
+
+**Package dependencies**
+* [GSVD](https://github.com/derekbeaton/gsvd)
+
+or
+
+``` r
+devtools::install_github("derekbeaton/GSVD")
+```
