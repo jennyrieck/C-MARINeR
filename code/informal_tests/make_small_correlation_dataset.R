@@ -1,5 +1,6 @@
 require(ExPosition)
 
+data("ep.iris")
 setosa_correlation_matrix <- cor(ep.iris$data[which(ep.iris$design[,1]==1),])
 versicolor_correlation_matrix <- cor(ep.iris$data[which(ep.iris$design[,2]==1),])
 virginica_correlation_matrix <- cor(ep.iris$data[which(ep.iris$design[,3]==1),])

@@ -1,5 +1,5 @@
 
-covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE){
+covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE, tolerance = 1e-12){
 
   ## everything is list based for now
 
@@ -48,14 +48,20 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
     compromise_matrix
 
   # (4) eigen of compromise
-  eigen(compromise_matrix, symmetric = TRUE) %>%
-    eigen_tolerance(.) ->
+  # eigen(compromise_matrix, symmetric = TRUE) %>%
+  #   eigen_tolerance(.) ->
+  #   compromise_eigen
+
+  # eigen(compromise_matrix, ) %>%
+  compromise_matrix %>%
+    tolerance.eigen(., tol=tolerance, symmetric = TRUE) ->
     compromise_eigen
+
 
   # (5) compute compromise component scores
   (compromise_eigen$vectors %*% diag(sqrt(compromise_eigen$values))) ->
     compromise_component_scores
-  
+
   rownames(compromise_component_scores) <- rownames(cov_matrices[[1]])
 
   # (6) compute partial (table) component scores
