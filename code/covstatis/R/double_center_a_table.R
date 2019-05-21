@@ -5,6 +5,6 @@ double_center_a_table <- function(sspsd_mat){
 
     ## package build is yelling about this. apparently I'm not allowed to use stats:::C_DoubleCentre?
     ## that's nonsense.
-  (.Call(stats:::C_DoubleCentre, sspsd_mat)/2)
+   (.Call(stats:::C_DoubleCentre, sspsd_mat)/2)
 
 }
