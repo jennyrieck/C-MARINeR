@@ -78,7 +78,7 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
   ## to think about; requires going back to compute_weighted_partial_component_scores and making a decision
 
 
-  rownames(compromise_component_scores) <- rownames(cov_matrices[[1]]) -> rownames(partial_component_scores)
+  rownames(compromise_component_scores) <- rownames(cov_matrices[[1]])
 
   ## considering renaming these to match the STATIS paper.
   if(compact){
