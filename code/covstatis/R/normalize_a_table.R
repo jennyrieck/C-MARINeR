@@ -27,10 +27,11 @@ normalize_a_table <- function(sspsd_table, table_norm_type = "SS1", tol=1e-12){
   }
   if(table_norm_type=="MFA"){
     eigen_results <- eigen(sspsd_table, symmetric = TRUE, only.values = TRUE)
-    if(any(eigen_results$values < 0 & abs(eigen_results$values) > tol)){
-      # stop("normalize_a_table (MFA normalization): matrix is not positive-semi definite (i.e., strictly non-negative eigenvalues).")
-      warning("normalize_a_table (MFA normalization): matrix is not positive-semi definite (i.e., strictly non-negative eigenvalues).")
-    }
+      ## removing this warning/stop for now because it will go elsewhere
+    # if(any(eigen_results$values < 0 & abs(eigen_results$values) > tol)){
+    #   # stop("normalize_a_table (MFA normalization): matrix is not positive-semi definite (i.e., strictly non-negative eigenvalues).")
+    #   warning("normalize_a_table (MFA normalization): matrix is not positive-semi definite (i.e., strictly non-negative eigenvalues).")
+    # }
     return(sspsd_table / eigen_results$values[1])
   }
   sspsd_table

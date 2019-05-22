@@ -1,5 +1,5 @@
 
-covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE, tolerance = 1e-12){
+covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE, tolerance = sqrt(.Machine$double.eps), enforce_psd = FALSE, make_psd = FALSE){
 
   ## everything is list based for now
 
@@ -15,8 +15,7 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
 
   if(is.list(cov_matrices)){
     if(any(!sapply(cov_matrices, is_ss_matrix))){
-      # stop("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
-      warning("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
+      stop("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
     }
   }
 
@@ -24,16 +23,24 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
   # steps of covstatis:
 
   # (0) double center each R table as S
-  # (1) Normalize each table
   cov_matrices %>%
-    double_center_tables(.) %>%
-    normalize_tables(., table_norm_type = table_norm_type) ->
+    double_center_tables(.) ->
     cov_matrices
 
-  ## a check for PSD.
-  if(table_norm_type != "MFA"){
+  ## force matrices to be psd/pd?
+  # if(make_psd){
+  #   sapply(cov_matrices, make_psd_matrix)
+  # }
+
+  ## a *strict* enforcement of PSD/PD
+  if(enforce_psd){
     stopifnot(all(!sapply(cov_matrices, is_sspsd_matrix)))
   }
+
+  # (1) Normalize each table
+  cov_matrices %>%
+    normalize_tables(., table_norm_type = table_norm_type) ->
+    cov_matrices
 
 
   # (2) Get the alpha weights
@@ -54,15 +61,15 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
   #   compromise_eigen
 
   # (4) eigen of compromise
-  # compromise_matrix %>%
-  #   tolerance.eigen(., tol=tolerance, symmetric = TRUE) ->
-  #   compromise_eigen
+  compromise_matrix %>%
+    tolerance.eigen(., tol=tolerance, symmetric = TRUE) ->
+    compromise_eigen
 
   # (4) eigen of compromise
     ## goddamnit. not all connectivity matrices are PSD. they should be, but aren't.
-  compromise_matrix %>%
-    eigen(., symmetric = TRUE) ->
-    compromise_eigen
+  # compromise_matrix %>%
+  #   eigen(., symmetric = TRUE) ->
+  #   compromise_eigen
 
 
   # (5) compute compromise component scores

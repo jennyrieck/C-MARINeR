@@ -11,3 +11,4 @@ LazyData: true
 Imports: GSVD,
   base,
   magrittr
+RoxygenNote: 6.1.0
