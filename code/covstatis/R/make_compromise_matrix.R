@@ -1,3 +1,17 @@
+#' Make a compromise matrix
+#'
+#' TODO
+#'
+#' @export
+#'
+#' @param cov_matrices TODO
+#' @param alpha_weighted TODO
+#'
+#' @return TODO
+#'
+#' @examples
+#' TODO
+
 make_compromise_matrix <- function(cov_matrices, alpha_weights){
 
   ## a check to ensure that length(alpha_weights) == length(cov_matrices)

@@ -1,3 +1,19 @@
+#' TODO: TITLE
+#'
+#' TODO
+#'
+#' @export
+#'
+#' @param squared_dist_matrices TODO
+#' @param table_norm_type TODO. Default is MFA.
+#' @param alpha_from_RV TODO. Default is TRUE.
+#' @param compact TODO. Default is TRUE.
+#'
+#' @return TODO
+#'
+#' @examples
+#' TODO
+
 distatis <- function(squared_dist_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE){
 
   if(is.array(squared_dist_matrices)){
