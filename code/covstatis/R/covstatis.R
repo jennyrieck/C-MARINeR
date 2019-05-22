@@ -19,9 +19,6 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
     }
   }
 
-
-  # steps of covstatis:
-
   # (0) double center each R table as S
   cov_matrices %>%
     double_center_tables(.) ->
@@ -52,7 +49,7 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
 
 
   ## a *strict* enforcement of PSD/PD
-  if(strictly_enforce_psd & !is_sspsd_matrix(compromise_matrix))){
+  if(strictly_enforce_psd & !is_sspsd_matrix(compromise_matrix)){
     stop("covstatis: compromise_matrix is not positive semi-definite")
   }
 
@@ -67,20 +64,21 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
   (compromise_eigen$vectors %*% diag(sqrt(compromise_eigen$values))) ->
     compromise_component_scores
 
-  rownames(compromise_component_scores) <- rownames(cov_matrices[[1]])
-
   # (6) compute partial (table) component scores
   compute_partial_component_scores(cov_matrices, compromise_eigen) ->
     partial_component_scores
 
-  # (5) compute weighted partial (table) component scores
+  # (7) compute weighted partial (table) component scores
     ### removed for now.
   # compute_weighted_partial_component_scores(partial_component_scores, alpha_weights) ->
   #   weighted_partial_component_scores
 
   ## major question left:
-    ## which is more appropriate to visualize: partial or (correctly) weighted partials?
-    ## to think about; requires going back to compute_weighted_partial_component_scores and making a decision
+  ## which is more appropriate to visualize: partial or (correctly) weighted partials?
+  ## to think about; requires going back to compute_weighted_partial_component_scores and making a decision
+
+
+  rownames(compromise_component_scores) <- rownames(cov_matrices[[1]]) -> rownames(partial_component_scores)
 
   ## considering renaming these to match the STATIS paper.
   if(compact){
