@@ -1,3 +1,18 @@
+#' TODO: TITLE
+#'
+#' TODO
+#'
+#' @export
+#'
+#' @param cov_matrices TODO
+#' @param table_norm_type TODO. Default is MFA.
+#' @param alpha_from_RV TODO. Default is TRUE.
+#' @param compact TODO. Default is TRUE.
+#'
+#' @return TODO
+#'
+#' @examples
+#' TODO
 
 covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE, tolerance = sqrt(.Machine$double.eps), strictly_enforce_psd = FALSE){
 

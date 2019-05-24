@@ -1,3 +1,21 @@
+#' TODO: TITLE
+#'
+#' TODO
+#'
+#' @export
+#'
+#' @param fi TODO
+#' @param fis TODO
+#' @param fi.cols TODO. Default is NULL.
+#' @param fis.cols TODO. Default is NULL.
+#' @param axes TODO. Default is 1 and 2.
+#' @param display.fi.names TODO. Default is TRUE.
+#' @param fis.names TODO. Default is FALSE.
+#'
+#' @return TODO
+#'
+#' @examples
+#' TODO
 
 ### this is temporary...
 
