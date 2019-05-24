@@ -1,3 +1,15 @@
+#' Compute weighted partial component scores
+#'
+#' TODO
+#'
+#' @param partial_component_scores TODO
+#' @param alpha_weights TODO
+#'
+#' @return TODO
+#'
+#' @examples
+#' TODO
+
 compute_weighted_partial_component_scores <- function(partial_component_scores, alpha_weights){
 
   ## major question left:

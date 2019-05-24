@@ -1,3 +1,15 @@
+#' Double center a table
+#'
+#' TODO
+#'
+#' @export
+#'
+#' @param sspsd_mat A square symmetric matrix.
+#'
+#' @return TODO A centered table?
+#'
+#' @examples
+#' TODO
 
 double_center_a_table <- function(sspsd_mat){
 

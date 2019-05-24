@@ -1,3 +1,17 @@
+#' Compute partial component scores
+#'
+#' TODO
+#'
+#' @export
+#'
+#' @param cov_matrices TODO
+#' @param compromise_eigen TODO
+#'
+#' @return TODO
+#'
+#' @examples
+#' TODO
+
 compute_partial_component_scores <- function(cov_matrices, compromise_eigen){
 
   (compromise_eigen$vectors %*% diag(1/sqrt(compromise_eigen$values))) ->

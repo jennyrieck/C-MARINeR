@@ -1,3 +1,17 @@
+#' Normalize tables
+#'
+#' TODO
+#'
+#' @export
+#'
+#' @param cov_matrices TODO
+#' @param table_norm_type TODO. Defaults is SS1.
+#'
+#' @return TODO
+#'
+#' @examples
+#' TODO
+
 normalize_tables <- function(cov_matrices, table_norm_type = c("SS1")){
 
   valid_table_norm_types <- c("SS1","MFA","none")
