@@ -54,9 +54,15 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
   }
 
 
+  # # (4) eigen of compromise
+  #   ## GODDAMNIT.
+  # compromise_matrix %>%
+  #   tolerance.eigen(., tol=tolerance, symmetric = TRUE) ->
+  #   compromise_eigen
+
   # (4) eigen of compromise
   compromise_matrix %>%
-    tolerance.eigen(., tol=tolerance, symmetric = TRUE) ->
+    eigen(., symmetric = TRUE) ->
     compromise_eigen
 
 
