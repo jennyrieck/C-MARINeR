@@ -1,4 +1,4 @@
-#' Double center tables
+#' Double center matrices
 #'
 #' TODO
 #'
@@ -6,13 +6,14 @@
 #'
 #' @param cov_matrices TODO
 #'
-#' @return TODO A list of double centered tables?
+#' @return TODO A list of double centered matrices?
 #'
 #' @examples
 #' TODO
 
-double_center_tables <- function(cov_matrices){
+double_center_matrices <- function(cov_matrices){
 
-  sapply(cov_matrices, double_center_a_table, simplify = FALSE, USE.NAMES = TRUE)
+  ### sapply is not safe; change over to vapply
+  sapply(cov_matrices, double_center_a_matrix, simplify = FALSE, USE.NAMES = TRUE)
 
 }

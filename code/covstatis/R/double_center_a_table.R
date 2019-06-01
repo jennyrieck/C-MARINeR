@@ -1,23 +1,25 @@
-#' Double center a table
+#' Double center a matrix
 #'
 #' TODO
 #'
 #' @export
 #'
-#' @param sspsd_mat A square symmetric matrix.
+#' @param sspsd_matrix A square symmetric matrix.
 #'
-#' @return TODO A centered table?
+#' @return TODO A centered matrix?
 #'
 #' @examples
 #' TODO
 
-double_center_a_table <- function(sspsd_mat){
+double_center_a_matrix <- function(sspsd_matrix){
 
-  ## on entry we need to guarantee we have a square symmetric matrix
+  sspsd_matrix %>%
+    is_ss_matrix %>%
+    stopifnot
 
-  nI <- nrow(sspsd_mat)
+  nI <- nrow(sspsd_matrix)
   centering_mat <- matrix(-1/nI, nI, nI)
   diag(centering_mat) <- rep(1 - (1/nI), nI)
-  (centering_mat %*% sspsd_mat %*% centering_mat)/2
+  (centering_mat %*% sspsd_matrix %*% centering_mat)/2
 
 }
