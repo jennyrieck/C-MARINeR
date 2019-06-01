@@ -15,8 +15,9 @@ double_center_a_table <- function(sspsd_mat){
 
   ## on entry we need to guarantee we have a square symmetric matrix
 
-    ## package build is yelling about this. apparently I'm not allowed to use stats:::C_DoubleCentre?
-    ## that's nonsense.
-   (.Call(stats:::C_DoubleCentre, sspsd_mat)/2)
+  nI <- nrow(sspsd_mat)
+  centering_mat <- matrix(-1/nI, nI, nI)
+  diag(centering_mat) <- rep(1 - (1/nI), nI)
+  (centering_mat %*% sspsd_mat %*% centering_mat)/2
 
 }
