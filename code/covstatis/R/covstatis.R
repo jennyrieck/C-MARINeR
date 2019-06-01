@@ -5,9 +5,11 @@
 #' @export
 #'
 #' @param cov_matrices TODO
-#' @param table_norm_type TODO. Default is MFA.
+#' @param table_norm_type TODO. Default is "MFA".
 #' @param alpha_from_RV TODO. Default is TRUE.
 #' @param compact TODO. Default is TRUE.
+#' @param tolerance TODO. Default \code{sqrt(.Machine$double.eps)}.
+#' @param strictly_enforce_psd TODO. Default is FALSE.
 #'
 #' @return TODO
 #'
@@ -69,16 +71,15 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
   }
 
 
-  # # (4) eigen of compromise
-  #   ## GODDAMNIT.
-  # compromise_matrix %>%
-  #   tolerance.eigen(., tol=tolerance, symmetric = TRUE) ->
-  #   compromise_eigen
-
   # (4) eigen of compromise
   compromise_matrix %>%
-    eigen(., symmetric = TRUE) ->
+    tolerance.eigen(., symmetric = TRUE, tol = if_else(strictly_enforce_psd, tolerance, NA)) ->
     compromise_eigen
+
+  # (4) eigen of compromise
+  # compromise_matrix %>%
+  #   eigen(., symmetric = TRUE) ->
+  #   compromise_eigen
 
 
   # (5) compute compromise component scores
