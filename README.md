@@ -18,7 +18,7 @@ Our primary goal is to make a small package and ShinyApp to perform the same typ
 An overview of CovSTATIS & K+1CovSTATIS
 =======================================
 
-![CovSTATIS steps](figures/CovSTATIS.png)
+![CovSTATIS steps](figures/covstatis_outline.png)
 
 CovSTATIS is the base method that allows for multiple connectivity (correlation or more generally covariance) matrices to be integrated into a single analysis.
 
