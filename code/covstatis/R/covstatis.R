@@ -66,24 +66,18 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
 
 
   ## a *strict* enforcement of PSD/PD
-  if(strictly_enforce_psd & !is_sspsd_matrix(compromise_matrix)){
-    stop("covstatis: compromise_matrix is not positive semi-definite")
-  }
-  if(!is_sspsd_matrix(compromise_matrix)){
-    warning("covstatis: compromise_matrix is not positive semi-definite")
+  if(!is_sspsd_matrix(compromise_matrix, tol=tolerance)){
+    if(strictly_enforce_psd){
+      stop("covstatis: compromise_matrix is not positive semi-definite within `tolerance`")
+    }
+    warning("covstatis: compromise_matrix is not positive semi-definite within `tolerance`")
   }
 
 
   # (4) eigen of compromise
   compromise_matrix %>%
-    tolerance.eigen(., symmetric = TRUE, tol = if_else(strictly_enforce_psd, tolerance, NA)) ->
+    tolerance.eigen(., symmetric = TRUE, tol = tolerance) ->
     compromise_eigen
-
-  # (4) eigen of compromise
-  # compromise_matrix %>%
-  #   eigen(., symmetric = TRUE) ->
-  #   compromise_eigen
-
 
   # (5) compute compromise component scores
   (compromise_eigen$vectors %*% diag(sqrt(compromise_eigen$values))) ->
