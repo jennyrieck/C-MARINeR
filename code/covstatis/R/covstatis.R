@@ -43,7 +43,7 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
 
   ## a *strict* enforcement of PSD/PD
   if(strictly_enforce_psd){
-    stopifnot(all(!sapply(cov_matrices, is_sspsd_matrix)))
+    stopifnot(all(sapply(cov_matrices, is_sspsd_matrix, tol = tolerance)))
   }
 
   # (1) Normalize each table
