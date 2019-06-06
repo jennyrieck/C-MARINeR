@@ -5,7 +5,7 @@
 #' @export
 #'
 #' @param squared_dist_matrices TODO
-#' @param table_norm_type TODO. Default is MFA.
+#' @param matrix_norm_type TODO. Default is MFA.
 #' @param alpha_from_RV TODO. Default is TRUE.
 #' @param compact TODO. Default is TRUE.
 #'
@@ -14,7 +14,7 @@
 #' @examples
 #' TODO
 
-distatis <- function(squared_dist_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE){
+distatis <- function(squared_dist_matrices, matrix_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE){
 
   if(is.array(squared_dist_matrices)){
     if(nrow(squared_dist_matrices)!=ncol(squared_dist_matrices)){
@@ -32,5 +32,6 @@ distatis <- function(squared_dist_matrices, table_norm_type = "MFA", alpha_from_
     }
   }
 
-  covstatis(sapply(squared_dist_matrices,"*", -1, simplify = FALSE, USE.NAMES = TRUE))
+  covstatis(sapply(squared_dist_matrices,"*", -1, simplify = FALSE, USE.NAMES = TRUE),
+            matrix_norm_type = matrix_norm_type, alpha_from_RV = alpha_from_RV, compact = compact)
 }
