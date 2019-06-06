@@ -24,5 +24,7 @@ normalize_matrices <- function(cov_matrices, matrix_norm_type = c("SS1")){
   }
 
   ### sapply is not safe; change over to vapply
-  sapply(cov_matrices, normalize_a_table, matrix_norm_type = matrix_norm_type, simplify = FALSE, USE.NAMES = TRUE)
+    ## correction: vapply is hard to use in this case. consider lapply or ensure checks before this.
+    ## the function downstream is actually checking. so that's OK.
+  sapply(cov_matrices, normalize_a_matrix, matrix_norm_type = matrix_norm_type, simplify = FALSE, USE.NAMES = TRUE)
 }

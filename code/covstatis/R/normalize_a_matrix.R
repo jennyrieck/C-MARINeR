@@ -6,7 +6,6 @@
 #'
 #' @param sspsd_matrix TODO
 #' @param matrix_norm_type TODO. Default is SS1.
-#' @param tol TODO. Default is 1e-12.
 #'
 #' @return TODO. A normalized matrix?
 #'
@@ -15,7 +14,7 @@
 
 
 ## tol not currently used.
-normalize_a_matrix <- function(sspsd_matrix, matrix_norm_type = "SS1", tol=1e-12){
+normalize_a_matrix <- function(sspsd_matrix, matrix_norm_type = "SS1"){
 
   sspsd_matrix %>%
     is_ss_matrix %>%
@@ -36,8 +35,8 @@ normalize_a_matrix <- function(sspsd_matrix, matrix_norm_type = "SS1", tol=1e-12
     return(sspsd_matrix / sqrt(sum(sspsd_matrix^2)))
   }
   if(matrix_norm_type=="MFA"){
-    ## consider switching to geigen() or tolerance.eigen()
-    eigen_results <- eigen(sspsd_matrix, symmetric = TRUE, only.values = TRUE)
+      ### this will not perform the tolerance checks. that is a job for other places in the pipeline.
+    eigen_results <- tolerance.eigen(sspsd_matrix, symmetric = TRUE, only.values = TRUE, tol = NA)
     return(sspsd_matrix / eigen_results$values[1])
   }
   sspsd_matrix

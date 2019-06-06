@@ -5,7 +5,7 @@
 #' @export
 #'
 #' @param cov_matrices TODO
-#' @param table_norm_type TODO. Default is "MFA".
+#' @param matrix_norm_type TODO. Default is "MFA".
 #' @param alpha_from_RV TODO. Default is TRUE.
 #' @param compact TODO. Default is TRUE.
 #' @param tolerance TODO. Default \code{sqrt(.Machine$double.eps)}.
@@ -16,7 +16,7 @@
 #' @examples
 #' TODO
 
-covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE, tolerance = sqrt(.Machine$double.eps), strictly_enforce_psd = FALSE){
+covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE, tolerance = sqrt(.Machine$double.eps), strictly_enforce_psd = FALSE){
 
   ## everything is list based for now
 
@@ -38,7 +38,7 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
 
   # (0) double center each R table as S
   cov_matrices %>%
-    double_center_tables(.) ->
+    double_center_matrices(.) ->
     cov_matrices
 
   ## a *strict* enforcement of PSD/PD
@@ -48,7 +48,7 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
 
   # (1) Normalize each table
   cov_matrices %>%
-    normalize_tables(., table_norm_type = table_norm_type) ->
+    normalize_matrices(., matrix_norm_type = matrix_norm_type) ->
     cov_matrices
 
 
@@ -68,6 +68,9 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
   ## a *strict* enforcement of PSD/PD
   if(strictly_enforce_psd & !is_sspsd_matrix(compromise_matrix)){
     stop("covstatis: compromise_matrix is not positive semi-definite")
+  }
+  if(!is_sspsd_matrix(compromise_matrix)){
+    warning("covstatis: compromise_matrix is not positive semi-definite")
   }
 
 
@@ -100,7 +103,7 @@ covstatis <- function(cov_matrices, table_norm_type = "MFA", alpha_from_RV = TRU
   ## to think about; requires going back to compute_weighted_partial_component_scores and making a decision
 
 
-  rownames(compromise_component_scores) <- rownames(cov_matrices[[1]])
+  # rownames(compromise_component_scores) <- rownames(cov_matrices[[1]])
 
   ## considering renaming these to match the STATIS paper.
   if(compact){
