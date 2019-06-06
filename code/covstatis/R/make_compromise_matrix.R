@@ -18,7 +18,7 @@ make_compromise_matrix <- function(cov_matrices, alpha_weights){
   compromise_matrix <- Reduce("+",
     mapply("*", cov_matrices, alpha_weights, SIMPLIFY = FALSE, USE.NAMES = TRUE)
   )
-  rownames(compromise_component_scores) <- rownames(cov_matrices[[1]])
+  rownames(compromise_matrix) <- rownames(cov_matrices[[1]])
 
   compromise_matrix
 }
