@@ -1,0 +1,9 @@
+compute_relative_distance<-function(covstatis_results){
+
+  sapply(covstatis_results$partial_component_scores,
+         function(partial_scores, compromise){partial_scores-compromise},
+         compromise=covstatis_results$compromise_component_scores,
+         simplify = FALSE,
+         USE.NAMES = TRUE)
+
+}
