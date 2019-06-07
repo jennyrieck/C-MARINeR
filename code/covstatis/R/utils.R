@@ -101,7 +101,7 @@ make_psd_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
     stop("make_psd_matrix: x is not square and symmetric")
   }
 
-  eigen_results <- eigen(x)
+  # eigen_results <- eigen(x)
   # if(any(is.complex(eigen_results$values))){
   #   stop("make_psd_matrix: eigenvalues are complex")
   # }
@@ -110,51 +110,12 @@ make_psd_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
   #
   # }
 
-  eigen_results <- eigen_tolerance(eigen_results, tol=tol)
+  eigen_results <- tolerance.eigen(eigen_results, tol=tol)
 
   ## I can make this faster.
   (eigen_results$vectors %*% diag(eigen_results$values) %*% t(eigen_results$vectors))
 }
 
-#' @export
-#'
-#' @title Eigendecomposition tolerance corrections
-#'
-#' @description takes the results of an eigen decomposition and drops vectors and values below
-#' tolerance threshold
-#'
-#' @param eigen_tolerance results from \code{eigen()}
-#' @param tol Tolerance precision to eliminate all abs(x) values below \code{tol}. Default is \code{1e-12}.
-#'
-#' @return \code{eigen_tolerance} corrected for tolerance (if necessary)
-#'
-#' @seealso \code{\link{eigen}}
-#'
-#'
-#' @author Derek Beaton
-#'
-#' @keywords multivariate, diagonalization, eigen
-#'
-eigen_tolerance <- function(eigen_results, tol = sqrt(.Machine$double.eps)){
-
-  ## ensure eigen_results has $vectors and $values
-
-  if(any(is.complex(eigen_results$values))){
-    stop("eigen_tolerance: complex eigenvalues detected")
-  }
-
-  if(any(eigen_results$values < 0 & abs(eigen_results$values) > tol)){
-    stop("eigen_tolerance: negative eigenvalues detected. Cannot proceed.")
-  }
-
-  ## check for low eigenvalues only.
-  if(any(eigen_results$values < tol)){
-    vectors_kept <- which(eigen_results$values > tol)
-    eigen_results$values <- eigen_results$values[vectors_kept]
-    eigen_results$vectors <- eigen_results$vectors[,vectors_kept]
-  }
-  eigen_results
-}
 
 
 ### this is stolen from https://stackoverflow.com/questions/20198751/three-dimensional-array-to-list

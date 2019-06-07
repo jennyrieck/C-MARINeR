@@ -14,7 +14,7 @@
 #' @examples
 #' TODO
 
-distatis <- function(squared_dist_matrices, matrix_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE){
+distatis <- function(squared_dist_matrices, matrix_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE, tolerance = sqrt(.Machine$double.eps), strictly_enforce_psd = FALSE){
 
   if(is.array(squared_dist_matrices)){
     if(nrow(squared_dist_matrices)!=ncol(squared_dist_matrices)){
@@ -33,5 +33,5 @@ distatis <- function(squared_dist_matrices, matrix_norm_type = "MFA", alpha_from
   }
 
   covstatis(sapply(squared_dist_matrices,"*", -1, simplify = FALSE, USE.NAMES = TRUE),
-            matrix_norm_type = matrix_norm_type, alpha_from_RV = alpha_from_RV, compact = compact)
+            matrix_norm_type = matrix_norm_type, alpha_from_RV = alpha_from_RV, compact = compact, tolerance = tolerance, strictly_enforce_psd = strictly_enforce_psd)
 }

@@ -19,7 +19,6 @@
 covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE, tolerance = sqrt(.Machine$double.eps), strictly_enforce_psd = FALSE){
 
   ## everything is list based for now
-
   if(is.array(cov_matrices)){
     if(nrow(cov_matrices)!=ncol(cov_matrices)){
       stop("covstatis: The number of rows does not equal the number of columns. Each matrix must be square, symmetric, and positive semi-definite.")
@@ -30,11 +29,12 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
       cov_matrices
   }
 
-  if(is.list(cov_matrices)){
+    ## by here the data MUST be a list, so this is unnecessary.
+  # if(is.list(cov_matrices)){
     if(any(!sapply(cov_matrices, is_ss_matrix))){
       stop("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
     }
-  }
+  # }
 
   # (0) double center each R table as S
   cov_matrices %>%
