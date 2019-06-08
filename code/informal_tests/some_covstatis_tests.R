@@ -1,5 +1,9 @@
+
+library(tidyverse)
+library(devtools)
 library(GSVD)
 
+load_all()
 
 # load('/Professional/Data/TinyNKI/connectivity_cubes.rda')
 load('/Data/TinyNKI/connectivity_cubes.rda')
