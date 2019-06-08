@@ -90,17 +90,17 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
 
   # (7) compute weighted partial (table) component scores
     ### removed for now.
-  compute_weighted_partial_component_scores(partial_component_scores, alpha_weights) ->
-    weighted_partial_component_scores
+  compute_barycentric_partial_component_scores(partial_component_scores, alpha_weights) ->
+    barycentric_partial_component_scores
 
   ## major question left:
   ## which is more appropriate to visualize: partial or (correctly) weighted partials?
-  ## to think about; requires going back to compute_weighted_partial_component_scores and making a decision
+  ## to think about; requires going back to compute_barycentric_partial_component_scores and making a decision
 
 
   rownames(compromise_component_scores) <- rownames(cov_matrices[[1]]) -> rownames(compromise_eigen$vectors)
   partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
-  weighted_partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, weighted_partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
+  barycentric_partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, barycentric_partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
 
 
   # ## considering renaming these to match the STATIS paper.
@@ -110,7 +110,7 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
   #     compromise_eigen = compromise_eigen,
   #     compromise_component_scores = compromise_component_scores,
   #     partial_component_scores = partial_component_scores
-  #     # weighted_partial_component_scores = weighted_partial_component_scores
+  #     # barycentric_partial_component_scores = barycentric_partial_component_scores
   #   ))
   # }else{
     return(list(
@@ -120,7 +120,7 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
       compromise_component_scores = compromise_component_scores,
       alpha_weights = alpha_weights,
       partial_component_scores = partial_component_scores,
-      weighted_partial_component_scores = weighted_partial_component_scores
+      barycentric_partial_component_scores = barycentric_partial_component_scores
     ))
   # }
 
