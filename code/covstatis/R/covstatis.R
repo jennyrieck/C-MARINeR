@@ -76,16 +76,17 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
 
 
   # (4) eigen of compromise
+    ## this will need to become geigen() and then compute_partial_component_scores() will change
   compromise_matrix %>%
     tolerance.eigen(., symmetric = TRUE, tol = tolerance) ->
-    compromise_eigen
+    compromise_decomposition_results
 
   # (5) compute compromise component scores
-  (compromise_eigen$vectors %*% diag(sqrt(compromise_eigen$values))) ->
+  (compromise_decomposition_results$vectors %*% diag(sqrt(compromise_decomposition_results$values))) ->
     compromise_component_scores
 
   # (6) compute partial (table) component scores
-  compute_partial_component_scores(cov_matrices, compromise_eigen) ->
+  compute_partial_component_scores(cov_matrices, compromise_decomposition_results) ->
     partial_component_scores
 
   # (7) compute weighted partial (table) component scores
@@ -98,7 +99,7 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
   ## to think about; requires going back to compute_barycentric_partial_component_scores and making a decision
 
 
-  rownames(compromise_component_scores) <- rownames(cov_matrices[[1]]) -> rownames(compromise_eigen$vectors)
+  rownames(compromise_component_scores) <- rownames(cov_matrices[[1]]) -> rownames(compromise_decomposition_results$vectors)
   partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
   barycentric_partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, barycentric_partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
 
@@ -107,20 +108,21 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
   # if(compact){
   #   return(list(
   #     compromise_matrix = compromise_matrix,
-  #     compromise_eigen = compromise_eigen,
+  #     compromise_decomposition_results = compromise_decomposition_results,
   #     compromise_component_scores = compromise_component_scores,
   #     partial_component_scores = partial_component_scores
   #     # barycentric_partial_component_scores = barycentric_partial_component_scores
   #   ))
   # }else{
     return(list(
-      cov_matrices = cov_matrices,
-      compromise_matrix = compromise_matrix,
-      compromise_eigen = compromise_eigen,
-      compromise_component_scores = compromise_component_scores,
+      # cov_matrices = cov_matrices,
       alpha_weights = alpha_weights,
+      compromise_matrix = compromise_matrix,
+      compromise_decomposition_results = compromise_decomposition_results,
+      compromise_component_scores = compromise_component_scores,
       partial_component_scores = partial_component_scores,
-      barycentric_partial_component_scores = barycentric_partial_component_scores
+      barycentric_partial_component_scores = barycentric_partial_component_scores,
+      input_parameters = list(matrix_norm_type = matrix_norm_type, alpha_from_RV = alpha_from_RV, tolerance = tolerance, strictly_enforce_psd = strictly_enforce_psd)
     ))
   # }
 
