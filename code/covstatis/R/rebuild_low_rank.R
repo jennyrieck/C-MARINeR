@@ -34,5 +34,6 @@ rebuild_low_rank<-function(covstatis_results, components_to_rebuild){
     rebuilt_compromise = rebuilt_compromise,
     rebuilt_individuals = rebuilt_individuals,
     rebuilt_barycentric_individuals = rebuilt_barycentric_individuals,
+    components_to_rebuild = components_to_rebuild
   ))
 }
