@@ -11,11 +11,17 @@ load('/Data/TinyNKI/connectivity_cubes.rda')
 
 cor_covstatis_results <- covstatis(conn.cube.tog, strictly_enforce_psd = FALSE)
 
+
+
 # ### this is way slower than it should be...
 covstatis_bootstrap_results <- covstatis_bootstrap(conn.cube.tog, cor_covstatis_results, iterations = 100)
 
 plot(cor_covstatis_results$compromise_component_scores)
 points(apply(simplify2array(covstatis_bootstrap_results$boot_compromise_component_scores),c(1,2), mean), col="red", pch=20)
+
+
+### need to perform a single bootstrap resample here ot project a new set of scores
+### then I also need to do that by using only the "barycentric" scores
 
 
 # 

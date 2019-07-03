@@ -20,14 +20,45 @@ covstatis_inference <- function(cov_matrices, covstatis_results, iterations = 10
 
   ## we need the matrices & fixed results
   # boot_compromise_component_scores <- vector(length(cov_matrices), "list")
-  splithalf_cors <- boot_compromise_component_scores_list <- list()
+  splithalf_cors_list <- boot_compromise_component_scores_list <- list()
 
   for(i in 1:iterations){
 
+
+      ## figure out what is going on with this later
+      ### but first make split-half as its own function
+    # # ## split half
+    # sh1_sample <- sample(1:length(cov_matrices), floor(length(cov_matrices)/2), replace = F)
+    # sh2_sample <- setdiff(1:length(cov_matrices), sh1_sample)
+    #
+    #
+    # sh1_covstatis <- covstatis(cov_matrices[sh1_sample],
+    #                            alpha_from_RV = covstatis_results$input_parameters$alpha_from_RV,
+    #                            matrix_norm_type = covstatis_results$input_parameters$matrix_norm_type,
+    #                            tolerance = covstatis_results$input_parameters$tolerance,
+    #                            strictly_enforce_psd = covstatis_results$input_parameters$strictly_enforce_psd
+    # )
+    #
+    # sh2_covstatis <- covstatis(cov_matrices[sh2_sample],
+    #                            alpha_from_RV = covstatis_results$input_parameters$alpha_from_RV,
+    #                            matrix_norm_type = covstatis_results$input_parameters$matrix_norm_type,
+    #                            tolerance = covstatis_results$input_parameters$tolerance,
+    #                            strictly_enforce_psd = covstatis_results$input_parameters$strictly_enforce_psd
+    # )
+    #
+    #
+    #
+    # sh1_predicted_compromise_component_scores <- sh1_covstatis$compromise_matrix %*% (sh2_covstatis$compromise_decomposition_results$vectors %*% diag(1/sqrt(sh2_covstatis$compromise_decomposition_results$values)))
+    #
+    # sh2_predicted_compromise_component_scores <- sh2_covstatis$compromise_matrix %*% (sh1_covstatis$compromise_decomposition_results$vectors %*% diag(1/sqrt(sh1_covstatis$compromise_decomposition_results$values)))
+    #
+    #
+    # splithalf_cors_list[[i]] <- (abs(cor(sh1_predicted_compromise_component_scores, sh1_covstatis$compromise_component_scoreS)) +
+    #                                abs(cor(sh2_predicted_compromise_component_scores, sh2_covstatis$compromise_component_scoreS))) / 2
+    #
+
     ## bootstrap
     bootstrap_sample <- sample(1:length(cov_matrices), replace = T)
-    # bootstrap_sample <- 1:length(cov_matrices)
-    ## we want to generate a new compromise then project it onto te exist compromise
 
     # (0) double center each R table as S
     cov_matrices[bootstrap_sample] %>%
@@ -55,38 +86,6 @@ covstatis_inference <- function(cov_matrices, covstatis_results, iterations = 10
     make_compromise_matrix(boot_cov_matrices, boot_alpha_weights) %*% (covstatis_results$compromise_decomposition_results$vectors %*% diag(1/sqrt(covstatis_results$compromise_decomposition_results$values))) ->
       boot_compromise_component_scores_list[[i]]
 
-
-    # ## split half
-    sh1_sample <- sample(1:length(cov_matrices), floor(length(cov_matrices)/2), replace = T)
-    sh2_sample <- setdiff(1:length(cov_matrices), sh1_sample)
-
-
-    sh1_covstatis <- covstatis(cov_matrices[sh1_sample],
-                               alpha_from_RV = covstatis_results$input_parameters$alpha_from_RV,
-                               matrix_norm_type = covstatis_results$input_parameters$matrix_norm_type,
-                               tolerance = covstatis_results$input_parameters$tolerance,
-                               strictly_enforce_psd = covstatis_results$input_parameters$strictly_enforce_psd
-                              )
-
-    sh2_covstatis <- covstatis(cov_matrices[sh2_sample],
-                               alpha_from_RV = covstatis_results$input_parameters$alpha_from_RV,
-                               matrix_norm_type = covstatis_results$input_parameters$matrix_norm_type,
-                               tolerance = covstatis_results$input_parameters$tolerance,
-                               strictly_enforce_psd = covstatis_results$input_parameters$strictly_enforce_psd
-    )
-
-
-    # make_compromise_matrix(boot_cov_matrices, boot_alpha_weights) %*% (covstatis_results$compromise_decomposition_results$vectors %*% diag(1/sqrt(covstatis_results$compromise_decomposition_results$values))) ->
-    #   boot_compromise_component_scores_list[[i]]
-
-
-
-
-    ## ok now project each split onto the results of the other...
-    # the correlate the split with the predict & add the abs(cor())
-
-
-
   }
 
   ## this could benefit from less ugliness and more efficiency.
@@ -100,11 +99,14 @@ covstatis_inference <- function(cov_matrices, covstatis_results, iterations = 10
   boot.ratios <- boot.cube.mean / (sqrt(apply(simplify2array(boot.cube.dev), c(1, 2), mean)))
   boot.ratios[which(is.infinite(boot.ratios))] <- 0
 
+
+
   return(
     list(
       covstatis_bootstrap_results = list(boot_compromise_component_scores_list = boot_compromise_component_scores_list,
                                          boot.ratios = boot.ratios),
-      covstatis_splithalf_results = list()
+      covstatis_splithalf_results = list(splithalf_cors_list = splithalf_cors_list
+                                         )
       )
     )
 }
