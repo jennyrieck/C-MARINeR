@@ -23,7 +23,7 @@ compute_partial_component_scores <- function(cov_matrices, compromise_decomposit
     ## quit!
 
   sapply(cov_matrices,
-         function(cov_matrix, projection){cov_matrix %*% projection_matrix},
+         function(cov_matrix, projection){cov_matrix %*% projection},
          projection=projection_matrix,
          simplify = FALSE,
          USE.NAMES = TRUE)
