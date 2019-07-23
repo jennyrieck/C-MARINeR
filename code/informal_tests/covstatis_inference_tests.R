@@ -14,10 +14,14 @@ cor_covstatis_results <- covstatis(conn.cube.tog, strictly_enforce_psd = FALSE)
 
 
 # ### this is way slower than it should be...
-covstatis_bootstrap_results <- covstatis_bootstrap(conn.cube.tog, cor_covstatis_results, iterations = 100)
+covstatis_bootstrap_compromise_results <- covstatis_bootstrap_compromise(conn.cube.tog, cor_covstatis_results, iterations = 100)
+
+covstatis_bootstrap_scores_results <- covstatis_bootstrap_scores(cor_covstatis_results, iterations = 100)
+
 
 plot(cor_covstatis_results$compromise_component_scores)
-points(apply(simplify2array(covstatis_bootstrap_results$boot_compromise_component_scores),c(1,2), mean), col="red", pch=20)
+points(apply(simplify2array(covstatis_bootstrap_compromise_results$boot_compromise_component_scores),c(1,2), mean), col="red", pch=20)
+points(apply(simplify2array(covstatis_bootstrap_scores_results$boot_compromise_component_scores),c(1,2), mean), col="blue", pch=20)
 
 
 ### need to perform a single bootstrap resample here ot project a new set of scores
@@ -68,5 +72,18 @@ points(apply(simplify2array(covstatis_inference_results$covstatis_bootstrap_resu
 
 
 
+### resampling approach
 
+boot_compromise_component_scores_list <- list()
+
+for(i in 1:100){
+  
+  ## bootstrap
+  bootstrap_sample <- sample(1:length(cor_covstatis_results$barycentric_partial_component_scores), replace = T)
+  
+  apply(simplify2array(cor_covstatis_results$barycentric_partial_component_scores[bootstrap_sample]),c(1,2),mean) ->
+    boot_compromise_component_scores_list[[i]]
+  
+
+}
 

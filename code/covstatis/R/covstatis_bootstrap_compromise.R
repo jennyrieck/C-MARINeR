@@ -1,4 +1,4 @@
-covstatis_bootstrap <- function(cov_matrices, covstatis_results, iterations = 100){
+covstatis_bootstrap_compromise <- function(cov_matrices, covstatis_results, iterations = 100){
 
   if(is.array(cov_matrices)){
     if(nrow(cov_matrices)!=ncol(cov_matrices)){
