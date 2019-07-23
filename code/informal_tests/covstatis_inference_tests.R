@@ -12,16 +12,18 @@ load('/Data/TinyNKI/connectivity_cubes.rda')
 cor_covstatis_results <- covstatis(conn.cube.tog, strictly_enforce_psd = FALSE)
 
 
+### note for us: the three different ways of producing bootstrap results (easily) give effectively the same results here.
 
 # ### this is way slower than it should be...
 covstatis_bootstrap_compromise_results <- covstatis_bootstrap_compromise(conn.cube.tog, cor_covstatis_results, iterations = 100)
-
-covstatis_bootstrap_scores_results <- covstatis_bootstrap_scores(cor_covstatis_results, iterations = 100)
+covstatis_bootstrap_scores_results_bary <- covstatis_bootstrap_scores(cor_covstatis_results, iterations = 100, use_barycentric=TRUE)
+covstatis_bootstrap_scores_results <- covstatis_bootstrap_scores(cor_covstatis_results, iterations = 100, use_barycentric=FALSE)
 
 
 plot(cor_covstatis_results$compromise_component_scores)
 points(apply(simplify2array(covstatis_bootstrap_compromise_results$boot_compromise_component_scores),c(1,2), mean), col="red", pch=20)
 points(apply(simplify2array(covstatis_bootstrap_scores_results$boot_compromise_component_scores),c(1,2), mean), col="blue", pch=20)
+points(apply(simplify2array(covstatis_bootstrap_scores_results_bary$boot_compromise_component_scores),c(1,2), mean), col="green", pch=20)
 
 
 ### need to perform a single bootstrap resample here ot project a new set of scores

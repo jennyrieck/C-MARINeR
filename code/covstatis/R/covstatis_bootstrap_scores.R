@@ -1,3 +1,6 @@
+### this is slower than I expected it to be.
+
+
 covstatis_bootstrap_scores <- function(covstatis_results, iterations = 100){
 
   boot_compromise_component_scores_list <- list()
@@ -6,8 +9,8 @@ covstatis_bootstrap_scores <- function(covstatis_results, iterations = 100){
 
     bootstrap_sample <- sample(1:length(covstatis_results$barycentric_partial_component_scores), replace = T)
 
-    apply(simplify2array(covstatis_results$barycentric_partial_component_scores[bootstrap_sample]),c(1,2),mean) ->
-      boot_compromise_component_scores_list[[i]]
+    apply(simplify2array(covstatis_results$partial_component_scores[bootstrap_sample]),c(1,2),mean) ->
+        boot_compromise_component_scores_list[[i]]
 
   }
 
