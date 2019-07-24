@@ -4,7 +4,7 @@
 #'
 #' @export
 #'
-#' @param cov_matrices TODO
+#' @param centered_normed_matrices TODO
 #' @param compromise_decomposition_results TODO
 #'
 #' @return TODO
@@ -12,7 +12,7 @@
 #' @examples
 #' TODO
 
-compute_partial_component_scores <- function(cov_matrices, compromise_decomposition_results){
+compute_partial_component_scores <- function(centered_normed_matrices, compromise_decomposition_results){
 
   ## check if eigen or svd here
     ## eigen
@@ -20,9 +20,13 @@ compute_partial_component_scores <- function(cov_matrices, compromise_decomposit
     projection_matrix
     ## svd
 
+      ## do we want to pass in a class here, or just make this a method for computing covstatis scores?
+        ### let's finish covstatis first.
+
+
     ## quit!
 
-  sapply(cov_matrices,
+  sapply(centered_normed_matrices,
          function(cov_matrix, projection){cov_matrix %*% projection},
          projection=projection_matrix,
          simplify = FALSE,

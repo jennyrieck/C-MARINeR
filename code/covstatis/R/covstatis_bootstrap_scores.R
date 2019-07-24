@@ -1,7 +1,6 @@
 ### this is slower than I expected it to be.
 
-
-covstatis_bootstrap_scores <- function(covstatis_results, iterations = 100){
+bootstrap_scores <- function(covstatis_results, iterations = 100){
 
   boot_compromise_component_scores_list <- list()
 
@@ -15,7 +14,7 @@ covstatis_bootstrap_scores <- function(covstatis_results, iterations = 100){
   }
 
 
-  ## this block now appears in two places.
+  ### there has to be a way to make this faster/more efficient...
 
   boot.cube.mean <- apply(simplify2array(boot_compromise_component_scores_list), c(1, 2), mean)
   boot.cube.dev <- sapply(boot_compromise_component_scores_list,

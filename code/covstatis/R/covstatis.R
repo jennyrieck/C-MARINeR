@@ -16,7 +16,12 @@
 #' @examples
 #' TODO
 
-# covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TRUE, compact = TRUE, tolerance = sqrt(.Machine$double.eps), strictly_enforce_psd = FALSE){
+## we are requiring that these are cov/cor matrices.
+
+### each of these functions needs a more coherent name...
+  ### cov_matrices only applies here...
+
+
 covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TRUE, tolerance = sqrt(.Machine$double.eps), strictly_enforce_psd = FALSE){
 
   ## everything is list based for now
@@ -30,17 +35,14 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
       cov_matrices
   }
 
-    ## by here the data MUST be a list, so this is unnecessary.
-  # if(is.list(cov_matrices)){
-    if(any(!sapply(cov_matrices, is_ss_matrix))){
-      stop("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
-    }
-  # }
+  if(any(!sapply(cov_matrices, is_ss_matrix))){
+    stop("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
+  }
 
   # (0) double center each R table as S
-  cov_matrices %>%
-    double_center_matrices(.) ->
-    cov_matrices
+    cov_matrices %>%
+      double_center_matrices(.) ->
+      cov_matrices
 
   ## a *strict* enforcement of PSD/PD
   if(strictly_enforce_psd){
@@ -53,10 +55,13 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
     cov_matrices
 
 
+  ####
+  ##    BETWEEN HERE AND BELOW IS EFFECTIVELY A "CORE" CROSS-PRODUCT STATIS
+  ##      At least until (5) but also possibly through all steps.
+  ####
+
   # (2) Get the alpha weights
   cov_matrices %>%
-    lapply(., c) %>%
-    do.call(cbind, .) %>%
     compute_alphas(., alpha_from_RV = alpha_from_RV) ->
     alpha_weights
 
@@ -85,6 +90,10 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
   (compromise_decomposition_results$vectors %*% diag(sqrt(compromise_decomposition_results$values))) ->
     compromise_component_scores
 
+  ####
+  ##    BETWEEN HERE AND ABOVE IS EFFECTIVELY A "CORE" CROSS-PRODUCT STATIS
+  ####
+
   # (6) compute partial (table) component scores
   compute_partial_component_scores(cov_matrices, compromise_decomposition_results) ->
     partial_component_scores
@@ -94,36 +103,23 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
   compute_barycentric_partial_component_scores(partial_component_scores, alpha_weights) ->
     barycentric_partial_component_scores
 
-  ## major question left:
-  ## which is more appropriate to visualize: partial or (correctly) weighted partials?
-  ## to think about; requires going back to compute_barycentric_partial_component_scores and making a decision
+  ####
+  ##    BETWEEN HERE AND ABOVE IS EFFECTIVELY A "CORE" CROSS-PRODUCT STATIS
+  ####
 
 
   rownames(compromise_component_scores) <- rownames(cov_matrices[[1]]) -> rownames(compromise_decomposition_results$vectors)
   partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
   barycentric_partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, barycentric_partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
 
-
-  # ## considering renaming these to match the STATIS paper.
-  # if(compact){
-  #   return(list(
-  #     compromise_matrix = compromise_matrix,
-  #     compromise_decomposition_results = compromise_decomposition_results,
-  #     compromise_component_scores = compromise_component_scores,
-  #     partial_component_scores = partial_component_scores
-  #     # barycentric_partial_component_scores = barycentric_partial_component_scores
-  #   ))
-  # }else{
-    return(list(
-      # cov_matrices = cov_matrices,
-      alpha_weights = alpha_weights,
-      compromise_matrix = compromise_matrix,
-      compromise_decomposition_results = compromise_decomposition_results,
-      compromise_component_scores = compromise_component_scores,
-      partial_component_scores = partial_component_scores,
-      barycentric_partial_component_scores = barycentric_partial_component_scores,
-      input_parameters = list(matrix_norm_type = matrix_norm_type, alpha_from_RV = alpha_from_RV, tolerance = tolerance, strictly_enforce_psd = strictly_enforce_psd)
-    ))
-  # }
+  return(list(
+    alpha_weights = alpha_weights,
+    compromise_matrix = compromise_matrix,
+    compromise_decomposition_results = compromise_decomposition_results,
+    compromise_component_scores = compromise_component_scores,
+    partial_component_scores = partial_component_scores,
+    barycentric_partial_component_scores = barycentric_partial_component_scores,
+    input_parameters = list(matrix_norm_type = matrix_norm_type, alpha_from_RV = alpha_from_RV, tolerance = tolerance, strictly_enforce_psd = strictly_enforce_psd)
+  ))
 
 }
