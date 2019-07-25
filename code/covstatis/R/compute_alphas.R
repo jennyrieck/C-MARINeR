@@ -19,8 +19,8 @@ compute_alphas <- function(centered_normed_matrices, alpha_from_RV = TRUE){
     do.call(cbind, .) %>%
     scale(., center = F, scale = alpha_from_RV) %>%
     svd(. , nu=0, nv=1 ) ->
-    svd_of_Z_matrix
+    svd_Z_matrix
 
-  (svd_of_Z_matrix$v / sum(svd_of_Z_matrix$v))
+  (svd_Z_matrix$v / sum(svd_Z_matrix$v))
 
 }

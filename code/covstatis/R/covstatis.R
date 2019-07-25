@@ -39,6 +39,9 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
     stop("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
   }
 
+
+  ## we are going to recycle the name cov_matrices and transform them each step along the way, as to not create new large lists.
+
   # (0) double center each R table as S
     cov_matrices %>%
       double_center_matrices(.) ->
@@ -85,6 +88,9 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
   compromise_matrix %>%
     tolerance.eigen(., symmetric = TRUE, tol = tolerance) ->
     compromise_decomposition_results
+
+  ## here I need to ensure that tolerance.eigen or whatever is used actually sends back a class type
+    ## I should probably switch to geigen() and rely on that class.
 
   # (5) compute compromise component scores
   (compromise_decomposition_results$vectors %*% diag(sqrt(compromise_decomposition_results$values))) ->

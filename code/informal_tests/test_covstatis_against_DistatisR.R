@@ -35,3 +35,13 @@ cs_res_3 <- covstatis::distatis(dist_cube, matrix_norm_type = "none", alpha_from
 
 
 ### all of these are equal hooray.
+cs_res$compromise_matrix / dsr_res$res4Splus$Splus
+cs_res_1$compromise_matrix / dsr_res_1$res4Splus$Splus
+cs_res_2$compromise_matrix / dsr_res_2$res4Splus$Splus
+cs_res_3$compromise_matrix / dsr_res_3$res4Splus$Splus
+
+
+cs_res$compromise_component_scores[,1:3] / dsr_res$res4Splus$F[,1:3]
+cs_res_1$compromise_component_scores[,1:3] / dsr_res_1$res4Splus$F[,1:3]
+cs_res_2$compromise_component_scores[,1:3] / dsr_res_2$res4Splus$F[,1:3]
+cs_res_3$compromise_component_scores[,1:3] / dsr_res_3$res4Splus$F[,1:3]
