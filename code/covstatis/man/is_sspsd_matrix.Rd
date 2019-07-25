@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{is_sspsd_matrix}
 \alias{is_sspsd_matrix}
-\title{\code{is.sspsd.matrix}: test if a matrix square, symmetric, and positive semi-definite (sspsd) matrix}
+\title{\code{is_sspsd_matrix}: test if a matrix square, symmetric, and positive semi-definite (sspsd) matrix}
 \usage{
 is_sspsd_matrix(x, tol = sqrt(.Machine$double.eps))
 }
@@ -15,5 +15,5 @@ is_sspsd_matrix(x, tol = sqrt(.Machine$double.eps))
 A boolean. TRUE if the matrix is a square, symmetric, and positive semi-definite (sspsd) matrix, FALSE if the matrix is not.
 }
 \description{
-\code{is.sspsd.matrix} takes a matrix and tests if it is a square, symmetric, and positive semi-definite (sspsd) matrix
+\code{is_sspsd_matrix} takes a matrix and tests if it is a square, symmetric, and positive semi-definite (sspsd) matrix
 }

@@ -1,3 +1,6 @@
+#### COME BACK TO THIS.
+#### DO I NEED ONE OR TWO (covstatis, K+1...)
+
 ### this one is simple: keep it to supplemental to the results where cov_matrix *must* be a cov or cor
 
 covstatis_supplementary_table <- function(cov_matrix, covstatis_results){

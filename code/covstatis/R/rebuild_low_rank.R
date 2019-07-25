@@ -1,4 +1,5 @@
 #' Rebuild low-rank matrices for compromise and each individual matrix
+#' NEEDS CHECKING/COMPLETION/TESTING.
 #'
 #' TODO
 #'

@@ -1,6 +1,7 @@
 ### this is slower than I expected it to be.
+### this may only apply to covstatis/distatis for now.
 
-bootstrap_scores <- function(covstatis_results, iterations = 100){
+covstatis_bootstrap_scores <- function(covstatis_results, iterations = 100){
 
   boot_compromise_component_scores_list <- list()
 

@@ -1,16 +1,12 @@
-#' Compute alphas
-#'
-#' TODO
-#'
+##
 #' @export
 #'
-#' @param Z_matrix TODO
-#' @param alpha_from_RV TODO. Default is TRUE.
+#' @title compute_alphas: compute alpha weights per matrix
 #'
-#' @return TODO
+#' @param centered_normed_matrices list. These must be the normalized cross-product matrices, i.e., they have already been double centered then normalzied.
+#' @param alpha_from_RV boolean. Default is TRUE. If TRUE, this scales the vectorized \code{centered_normed_matrices} and provides weights based on the Rv-coefficient. Else (FALSE) the vectorized matrices are only centered.
 #'
-#' @examples
-#' TODO
+#' @return vector. These are the weights per matrix to make the compromise.
 
 compute_alphas <- function(centered_normed_matrices, alpha_from_RV = TRUE){
 

@@ -1,16 +1,12 @@
-#' Compute partial component scores
-#'
-#' TODO
-#'
+##
 #' @export
 #'
-#' @param centered_normed_matrices TODO
-#' @param compromise_decomposition_results TODO
+#' @title compute_partial_component_scores: compute the partial component scores (per matrix) for the compromise space
 #'
-#' @return TODO
+#' @param centered_normed_matrices list. These must be the normalized cross-product matrices, i.e., they have already been double centered then normalzied.
+#' @param compromise_decomposition_results list. These must be the results from the decomposition of the compromise matrix (e.g., \code{$vectors} and \code{$values}).
 #'
-#' @examples
-#' TODO
+#' @return list. Each element in the list is a matrix of partial component scores.
 
 compute_partial_component_scores <- function(centered_normed_matrices, compromise_decomposition_results){
 

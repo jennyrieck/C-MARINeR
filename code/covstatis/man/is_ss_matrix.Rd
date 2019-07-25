@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{is_ss_matrix}
 \alias{is_ss_matrix}
-\title{\code{is.ss.matrix}: test if a matrix square and symmetric matrix}
+\title{\code{is_ss_matrix}: test if a matrix is a square and symmetric matrix}
 \usage{
 is_ss_matrix(x, tol = sqrt(.Machine$double.eps))
 }
@@ -15,5 +15,5 @@ is_ss_matrix(x, tol = sqrt(.Machine$double.eps))
 A boolean. TRUE if the matrix is a square and symmetric matrix, FALSE if the matrix is not.
 }
 \description{
-\code{is.ss.matrix} takes a matrix and tests if it is a square and symmetric matrix
+\code{is_ss_matrix} takes a matrix and tests if it is a square and symmetric matrix
 }

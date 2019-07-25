@@ -1,15 +1,11 @@
-#' Double center matrices
-#'
-#' TODO
-#'
+##
 #' @export
 #'
-#' @param cov_matrices TODO
+#' @title double_center_matrices: double center a list of matrices
 #'
-#' @return TODO A list of double centered matrices?
+#' @param cov_matrices list. Covariance or correlation matrices to be double centered
 #'
-#' @examples
-#' TODO
+#' @return list. Double centered covariance or correlation matrices
 
 double_center_matrices <- function(cov_matrices){
 
@@ -19,18 +15,14 @@ double_center_matrices <- function(cov_matrices){
 }
 
 
-#' Double center a matrix
-#'
-#' TODO
-#'
+##
 #' @export
 #'
-#' @param sspsd_matrix A square symmetric matrix.
+#' @title double_center_a_matrix: double center a matrix
 #'
-#' @return TODO A centered matrix?
+#' @param sspsd_matrix matrix. A square, symmetric, and (presumed) positive semi-definite---i.e., covariance or correlation---matrix to be centered
 #'
-#' @examples
-#' TODO
+#' @return matrix. A double centered covariance or correlation matrix
 
 double_center_a_matrix <- function(sspsd_matrix){
 

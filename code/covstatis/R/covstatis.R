@@ -1,26 +1,42 @@
-#' TODO: TITLE
-#'
-#' TODO
-#'
+##
 #' @export
 #'
-#' @param cov_matrices TODO
-#' @param matrix_norm_type TODO. Default is "MFA".
-#' @param alpha_from_RV TODO. Default is TRUE.
-#' @param compact TODO. Default is TRUE.
-#' @param tolerance TODO. Default \code{sqrt(.Machine$double.eps)}.
-#' @param strictly_enforce_psd TODO. Default is FALSE.
+#' @title CovSTATIS: STATIS for covariance matrices
 #'
-#' @return TODO
+#' @description \code{covstatis} performs CovSTATIS: a multi-table PCA for multiple covariance (or correlation) matrices.
+#' \code{covstatis} also allows for some variations in optimizations (per table, and similarity estimates). \code{cov_matrices} are assumed to be *proper* covariance or correlation matrices.
+#'
+#' @param cov_matrices array or list of matrices; each matrix (or slice of an array) must be a covariance or correlation matrix
+#' @param matrix_norm_type character string. Normalization to perform per matrix (after double centering). Default is "MFA" (multiple factor analysis); other options include "SS1" (sums of squares 1), and "none".
+#' @param alpha_from_RV boolean. Compute alpha weights from the Rv-coefficient matrix or not. Default is TRUE (Rv).
+#' @param tolerance numeric >= 0. Tolerance value to use as an effective zero; any values below \code{tolerance} are considered 0. Default \code{sqrt(.Machine$double.eps)}. Multiple checks use this parameter.
+#' @param strictly_enforce_psd boolean. Strictly enforce that all matrices conform to positive semi-definite (non-negative eigenvalues). Default is FALSE.
+#'
+#' @return List.
+#' \item{compromise_component_scores}{a matrix. Contains the component scores (from the decomposition) of the compromise matrix.}
+#' \item{partial_component_scores}{list (of matrices). Contains the partial component scores per matrix (which was projected onto the compromise space)}
+#' \item{barycentric_partial_component_scores}{list (of matrices). Contains "barycentric" partial component scores. These are the \code{partial_component_scores} multipled by their respective weights (\code{alpha_weights} and the total number of tables. The mean of \code{barycentric_partial_component_scores} equals compromise_component_scores (hence, barycentric)}
+#' \item{compromise_decomposition_results}{list. Contains results from \code{\link[GSVD]{tolerance.eigen}} which has \code{$vectors} and \code{$values} from an eigen-decomposition.}
+#' \item{compromise_matrix}{matrix. The compromise (weighted average) matrix of all matrices for decomposition.}
+#' \item{alpha_weights}{vector. The weights per matrix for use to create the compromise}
+#' \item{input_parameters}{list. This list contains the other input parameters for easier subsequent use: \code{matrix_norm_type}, \code{alpha_from_RV}, \code{tolerance}, \code{strictly_enforce_psd}}
+#'
+#' @details
+#'
+#' Users should take note that \code{cov_matrices} are assumed to be *proper* covariance or correlation matrices: square, symmetric, and positive semi-definite (i.e., non-negative eigenvalues).
+#' However those assumptions of proper covariance or correlation matrices can be circumvented with \code{strictly_enforce_psd = FALSE}; even though it is the default, we do not recommend that.
+#' Please check and ensure you have proper covariance matrices. There are a number of utilities in this package to help (e.g., \code{\link{is_sspsd_matrix}}).
+#'
+#' @references
+#' Abdi, H., Williams, L.J., Valentin, D., & Bennani-Dosse, M. (2012). STATIS and DISTATIS: Optimum multi-table principal component analysis and three way metric multidimensional scaling. \emph{Wiley Interdisciplinary Reviews: Computational Statistics}, 4, 124-167.
+#'
+#' @seealso
+#' \code{\link{distatis}}, \code{\link{GSVD}}
 #'
 #' @examples
 #' TODO
-
-## we are requiring that these are cov/cor matrices.
-
-### each of these functions needs a more coherent name...
-  ### cov_matrices only applies here...
-
+#'
+#' @keywords multivariate, diagonalization, decomposition
 
 covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TRUE, tolerance = sqrt(.Machine$double.eps), strictly_enforce_psd = FALSE){
 
@@ -39,6 +55,9 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
     stop("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
   }
 
+  if(tolerance < 0){
+    tolerance <- sqrt(.Machine$double.eps)
+  }
 
   ## we are going to recycle the name cov_matrices and transform them each step along the way, as to not create new large lists.
 
@@ -119,12 +138,12 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
   barycentric_partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, barycentric_partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
 
   return(list(
-    alpha_weights = alpha_weights,
-    compromise_matrix = compromise_matrix,
-    compromise_decomposition_results = compromise_decomposition_results,
     compromise_component_scores = compromise_component_scores,
     partial_component_scores = partial_component_scores,
     barycentric_partial_component_scores = barycentric_partial_component_scores,
+    compromise_decomposition_results = compromise_decomposition_results,
+    compromise_matrix = compromise_matrix,
+    alpha_weights = alpha_weights,
     input_parameters = list(matrix_norm_type = matrix_norm_type, alpha_from_RV = alpha_from_RV, tolerance = tolerance, strictly_enforce_psd = strictly_enforce_psd)
   ))
 

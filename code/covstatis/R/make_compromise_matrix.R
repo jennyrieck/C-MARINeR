@@ -1,16 +1,12 @@
-#' Make a compromise matrix
-#'
-#' TODO
-#'
+##
 #' @export
 #'
-#' @param centered_normed_matrices TODO
-#' @param alpha_weighted TODO
+#' @title make_compromise_matrix: make the compromise (weighted average) matrix
 #'
-#' @return TODO
+#' @param centered_normed_matrices list. A list of covariance or correlation matrices that have been double centered and normalized
+#' @param alpha_weighted vector. A vector of weights to use for the weighted average to produce the compromise matrix
 #'
-#' @examples
-#' TODO
+#' @return matrix. The weighted average of all matrices in \code{centered_normed_matrices} with the weights of \code{alpha_weights}
 
 make_compromise_matrix <- function(centered_normed_matrices, alpha_weights){
 
