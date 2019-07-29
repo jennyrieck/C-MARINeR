@@ -14,7 +14,7 @@ A boolean. TRUE if the matrix is a square and symmetric matrix, FALSE if the mat
 }
 \description{
 \code{array2list} takes a three dimensional array and converts it to a list of length \code{dim(x)[[3]]},
-where each matrix in the list has \code{dim(x)[[1]]} rows and  \code{dim(x)[[1]]} columns
+where each matrix in the list has \code{dim(x)[[1]]} rows and  \code{dim(x)[[1]]} columns.
 }
 \note{
 This function is copied directly from https://stackoverflow.com/questions/20198751/three-dimensional-array-to-list

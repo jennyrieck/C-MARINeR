@@ -1,7 +1,7 @@
 ##
 #' @export
 #'
-#' @title compute_partial_component_scores: compute the partial component scores (per matrix) for the compromise space
+#' @title compute_partial_component_scores: compute the partial component scores (per matrix) for the compromise space.
 #'
 #' @param centered_normed_matrices list. These must be the normalized cross-product matrices, i.e., they have already been double centered then normalzied.
 #' @param compromise_decomposition_results list. These must be the results from the decomposition of the compromise matrix (e.g., \code{$vectors} and \code{$values}).

@@ -15,5 +15,5 @@ is_sspsd_matrix(x, tol = sqrt(.Machine$double.eps))
 A boolean. TRUE if the matrix is a square, symmetric, and positive semi-definite (sspsd) matrix, FALSE if the matrix is not.
 }
 \description{
-\code{is_sspsd_matrix} takes a matrix and tests if it is a square, symmetric, and positive semi-definite (sspsd) matrix
+\code{is_sspsd_matrix} takes a matrix and tests if it is a square, symmetric, and positive semi-definite (sspsd) matrix.
 }

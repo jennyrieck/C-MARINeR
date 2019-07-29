@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_relative_distance.R
 \name{compute_relative_distance}
 \alias{compute_relative_distance}
-\title{Compute individual component scores relative to compromise component score}
+\title{Compute individual component scores relative to compromise component score.}
 \usage{
 compute_relative_distance(covstatis_results)
 }
@@ -13,8 +13,5 @@ compute_relative_distance(covstatis_results)
 TODO
 }
 \description{
-TODO
-}
-\examples{
 TODO
 }

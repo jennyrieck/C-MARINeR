@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_alphas.R
 \name{compute_alphas}
 \alias{compute_alphas}
-\title{compute_alphas: compute alpha weights per matrix}
+\title{compute_alphas: compute alpha weights per matrix.}
 \usage{
 compute_alphas(centered_normed_matrices, alpha_from_RV = TRUE)
 }
@@ -15,5 +15,5 @@ compute_alphas(centered_normed_matrices, alpha_from_RV = TRUE)
 vector. These are the weights per matrix to make the compromise.
 }
 \description{
-compute_alphas: compute alpha weights per matrix
+compute_alphas: compute alpha weights per matrix.
 }

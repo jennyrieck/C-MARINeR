@@ -23,7 +23,7 @@ List.
 \item{compromise_component_scores}{a matrix. Contains the component scores (from the decomposition) of the compromise matrix.}
 \item{partial_component_scores}{list (of matrices). Contains the partial component scores per matrix (which was projected onto the compromise space)}
 \item{barycentric_partial_component_scores}{list (of matrices). Contains "barycentric" partial component scores. These are the \code{partial_component_scores} multipled by their respective weights (\code{alpha_weights} and the total number of tables. The mean of \code{barycentric_partial_component_scores} equals compromise_component_scores (hence, barycentric)}
-\item{compromise_decomposition_results}{list. Contains results from \code{\link[GSVD]{tolerance.eigen}} which has \code{$vectors} and \code{$values} from an eigen-decomposition.}
+\item{compromise_decomposition_results}{list. Contains results from \code{GSVD::\link[GSVD]{tolerance.eigen}} which has \code{$vectors} and \code{$values} from an eigen-decomposition.}
 \item{compromise_matrix}{matrix. The compromise (weighted average) matrix of all matrices for decomposition.}
 \item{alpha_weights}{vector. The weights per matrix for use to create the compromise}
 \item{input_parameters}{list. This list contains the other input parameters for easier subsequent use: \code{matrix_norm_type}, \code{alpha_from_RV}, \code{tolerance}, \code{strictly_enforce_psd}}
@@ -38,7 +38,9 @@ However those assumptions of proper covariance or correlation matrices can be ci
 Please check and ensure you have proper covariance matrices. There are a number of utilities in this package to help (e.g., \code{\link{is_sspsd_matrix}}).
 }
 \examples{
-TODO
+\dontrun{
+## hello
+}
 
 }
 \references{
@@ -48,5 +50,5 @@ Abdi, H., Williams, L.J., Valentin, D., & Bennani-Dosse, M. (2012). STATIS and D
 \code{\link{distatis}}, \code{\link{GSVD}}
 }
 \keyword{decomposition}
-\keyword{diagonalization,}
-\keyword{multivariate,}
+\keyword{diagonalization}
+\keyword{multivariate}

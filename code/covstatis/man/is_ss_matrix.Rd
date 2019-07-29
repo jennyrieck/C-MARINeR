@@ -15,5 +15,5 @@ is_ss_matrix(x, tol = sqrt(.Machine$double.eps))
 A boolean. TRUE if the matrix is a square and symmetric matrix, FALSE if the matrix is not.
 }
 \description{
-\code{is_ss_matrix} takes a matrix and tests if it is a square and symmetric matrix
+\code{is_ss_matrix} takes a matrix and tests if it is a square and symmetric matrix.
 }

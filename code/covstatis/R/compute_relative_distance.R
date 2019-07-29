@@ -1,4 +1,4 @@
-#' Compute individual component scores relative to compromise component score
+#' Compute individual component scores relative to compromise component score.
 #'
 #' TODO
 #'
@@ -7,9 +7,6 @@
 #' @param covstatis_results TODO
 #'
 #' @return TODO
-#'
-#' @examples
-#' TODO
 
 
 compute_relative_distance<-function(covstatis_results){

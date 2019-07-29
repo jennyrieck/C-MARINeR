@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_partial_component_scores.R
 \name{compute_partial_component_scores}
 \alias{compute_partial_component_scores}
-\title{compute_partial_component_scores: compute the partial component scores (per matrix) for the compromise space}
+\title{compute_partial_component_scores: compute the partial component scores (per matrix) for the compromise space.}
 \usage{
 compute_partial_component_scores(centered_normed_matrices,
   compromise_decomposition_results)
@@ -16,5 +16,5 @@ compute_partial_component_scores(centered_normed_matrices,
 list. Each element in the list is a matrix of partial component scores.
 }
 \description{
-compute_partial_component_scores: compute the partial component scores (per matrix) for the compromise space
+compute_partial_component_scores: compute the partial component scores (per matrix) for the compromise space.
 }

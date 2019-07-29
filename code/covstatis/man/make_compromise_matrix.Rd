@@ -9,7 +9,7 @@ make_compromise_matrix(centered_normed_matrices, alpha_weights)
 \arguments{
 \item{centered_normed_matrices}{list. A list of covariance or correlation matrices that have been double centered and normalized}
 
-\item{alpha_weighted}{vector. A vector of weights to use for the weighted average to produce the compromise matrix}
+\item{alpha_weights}{vector. A vector of weights to use for the weighted average to produce the compromise matrix}
 }
 \value{
 matrix. The weighted average of all matrices in \code{centered_normed_matrices} with the weights of \code{alpha_weights}

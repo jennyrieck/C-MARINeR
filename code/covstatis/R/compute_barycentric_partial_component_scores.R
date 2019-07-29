@@ -1,7 +1,7 @@
 ##
 #' @export
 #'
-#' @title compute_barycentric_partial_component_scores: compute re-weighted versions of \code{partial_component_scores} which are barycentric (i.e., equal the compromise scores)
+#' @title compute_barycentric_partial_component_scores: compute reweighted versions of \code{partial_component_scores} which are barycentric (mean is equal to compromise scores).
 #'
 #' @param partial_component_scores list. A list of the partial component scores as computed from \code{compute_partial_component_scores}
 #' @param alpha_weights vector. A vector that contains the alpha weights as used in the computation of the compromise.
@@ -12,8 +12,6 @@
 #' the number of tables (\code{length(alpha_weights)}) and the alpha weights (\code{alpha_weights}). The mean of the barycentric partial component scores
 #' is equal to the compromise component scores.
 #'
-#' @examples
-#' TODO
 
 compute_barycentric_partial_component_scores <- function(partial_component_scores, alpha_weights){
 

@@ -20,6 +20,8 @@ plot_covstatis(fi, fis, fi.cols = NULL, fis.cols = NULL, axes = c(1,
 
 \item{display.fi.names}{TODO. Default is TRUE.}
 
+\item{display.fis.names}{TODO.}
+
 \item{fis.names}{TODO. Default is FALSE.}
 }
 \value{
@@ -29,5 +31,7 @@ TODO
 TODO
 }
 \examples{
-TODO
+\dontrun{
+## hello
+}
 }

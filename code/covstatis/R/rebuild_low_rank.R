@@ -10,8 +10,7 @@
 #'
 #' @return TODO
 #'
-#' @examples
-#' TODO
+
 
 
 rebuild_low_rank<-function(covstatis_results, components_to_rebuild){

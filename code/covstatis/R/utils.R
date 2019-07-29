@@ -6,7 +6,7 @@
 #'
 #' @title \code{is_ss_matrix}: test if a matrix is a square and symmetric matrix
 #'
-#' @description \code{is_ss_matrix} takes a matrix and tests if it is a square and symmetric matrix
+#' @description \code{is_ss_matrix} takes a matrix and tests if it is a square and symmetric matrix.
 #'
 #' @param x A matrix to test.
 #' @param tol Tolerance precision to eliminate all abs(x) values below \code{tol}. Default is \code{.Machine$double.eps}.
@@ -38,7 +38,7 @@ is_ss_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
 #'
 #' @title \code{is_ss_dist_matrix}: test if a matrix is a square and symmetric distance matrix
 #'
-#' @description \code{is_ss_dist_matrix} takes a matrix and tests if it is a square and symmetric distance matrix
+#' @description \code{is_ss_dist_matrix} takes a matrix and tests if it is a square and symmetric distance matrix.
 #'
 #' @param x A matrix to test.
 #' @param tol Tolerance precision to eliminate all abs(x) values below \code{tol}. Default is \code{.Machine$double.eps}.
@@ -74,7 +74,7 @@ is_ss_dist_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
 #'
 #' @title \code{is_sspsd_matrix}: test if a matrix square, symmetric, and positive semi-definite (sspsd) matrix
 #'
-#' @description \code{is_sspsd_matrix} takes a matrix and tests if it is a square, symmetric, and positive semi-definite (sspsd) matrix
+#' @description \code{is_sspsd_matrix} takes a matrix and tests if it is a square, symmetric, and positive semi-definite (sspsd) matrix.
 #'
 #' @param x A matrix to test.
 #' @param tol Tolerance precision to eliminate all abs(x) values below \code{tol}. Default is \code{.Machine$double.eps}.
@@ -136,7 +136,7 @@ is_sspsd_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
 #' @title \code{array2list}: converts three dimensional arrays to a list of matrices
 #'
 #' @description \code{array2list} takes a three dimensional array and converts it to a list of length \code{dim(x)[[3]]},
-#' where each matrix in the list has \code{dim(x)[[1]]} rows and  \code{dim(x)[[1]]} columns
+#' where each matrix in the list has \code{dim(x)[[1]]} rows and  \code{dim(x)[[1]]} columns.
 #'
 #' @param x An array to convert to a list of matrices
 #'
@@ -147,3 +147,16 @@ array2list <- function(x){
   setNames(lapply(split(x, arrayInd(seq_along(x), dim(x))[, 3]),
                   array, dim = dim(x)[-3], dimnames(x)[-3]),dimnames(x)[[3]])
 }
+
+
+#' Pipe operator
+#'
+#' See \code{magrittr::\link[magrittr]{\%>\%}} for details.
+#'
+#' @name %>%
+#' @rdname pipe
+#' @keywords internal
+#' @export
+#' @importFrom magrittr %>%
+#' @usage lhs \%>\% rhs
+NULL

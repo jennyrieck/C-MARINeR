@@ -2,7 +2,7 @@
 % Please edit documentation in R/compute_barycentric_partial_component_scores.R
 \name{compute_barycentric_partial_component_scores}
 \alias{compute_barycentric_partial_component_scores}
-\title{compute_barycentric_partial_component_scores: compute re-weighted versions of \code{partial_component_scores} which are barycentric (i.e., equal the compromise scores)}
+\title{compute_barycentric_partial_component_scores: compute reweighted versions of \code{partial_component_scores} which are barycentric (mean is equal to compromise scores).}
 \usage{
 compute_barycentric_partial_component_scores(partial_component_scores,
   alpha_weights)
@@ -16,13 +16,10 @@ compute_barycentric_partial_component_scores(partial_component_scores,
 list. A list of the barycentric version of the partial component scores.
 }
 \description{
-compute_barycentric_partial_component_scores: compute re-weighted versions of \code{partial_component_scores} which are barycentric (i.e., equal the compromise scores)
+compute_barycentric_partial_component_scores: compute reweighted versions of \code{partial_component_scores} which are barycentric (mean is equal to compromise scores).
 }
 \details{
 The name "barycentric partial component scores" means that the partial component scores (\code{partial_component_scores}) are re-weighted by
 the number of tables (\code{length(alpha_weights)}) and the alpha weights (\code{alpha_weights}). The mean of the barycentric partial component scores
 is equal to the compromise component scores.
-}
-\examples{
-TODO
 }
