@@ -16,7 +16,7 @@
 is_ss_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
 
   if(is.null(dim(x)) | !is.matrix(x)){
-    stop("is.sspsd.matrix: X is not a matrix.")
+    stop("is_ss_matrix: X is not a matrix.")
   }
   # x[ x^2 < tol ] <- 0
 
@@ -48,7 +48,7 @@ is_ss_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
 is_ss_dist_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
 
   if(is.null(dim(x)) | !is.matrix(x)){
-    stop("is.sspsd.matrix: X is not a matrix.")
+    stop("is_ss_dist_matrix: X is not a matrix.")
   }
   # x[ x^2 < tol ] <- 0
 
@@ -84,7 +84,7 @@ is_ss_dist_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
 is_sspsd_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
 
   if(is.null(dim(x)) | !is.matrix(x)){
-    stop("is.sspsd.matrix: X is not a matrix.")
+    stop("is_sspsd_matrix: X is not a matrix.")
   }
   # x[ x^2 < tol ] <- 0
 
@@ -123,7 +123,7 @@ is_sspsd_matrix <- function(x, tol = sqrt(.Machine$double.eps)){
 #   #
 #   # }
 #
-#   eigen_results <- tolerance.eigen(eigen_results, tol=tol)
+#   eigen_results <- tolerance_eigen(eigen_results, tol=tol)
 #
 #   ## I can make this faster.
 #   (eigen_results$vectors %*% diag(eigen_results$values) %*% t(eigen_results$vectors))

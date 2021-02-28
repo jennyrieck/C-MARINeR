@@ -56,7 +56,7 @@ normalize_a_matrix <- function(centered_matrix, matrix_norm_type = "MFA"){
   }
   if(matrix_norm_type=="MFA"){
     ### this will not perform the tolerance checks. that is a job for other places in the pipeline.
-    eigen_results <- tolerance.eigen(centered_matrix, symmetric = TRUE, only.values = TRUE, tol = NA)
+    eigen_results <- tolerance_eigen(centered_matrix, symmetric = TRUE, only.values = TRUE, tol = NA)
     return(centered_matrix / eigen_results$values[1])
   }
   centered_matrix

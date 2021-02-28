@@ -11,6 +11,7 @@
 make_compromise_matrix <- function(centered_normed_matrices, alpha_weights){
 
   ## previous note said this didn't work but I'm certain it does... need to check.
+    ### also this is a good place for maybe purrr::map to come in.
   compromise_matrix <- Reduce("+",
     mapply("*", centered_normed_matrices, alpha_weights, SIMPLIFY = FALSE, USE.NAMES = TRUE)
   )

@@ -40,7 +40,7 @@ if(getRversion() >= "2.15.1") utils::globalVariables(c("."))
 #' \item{compromise_component_scores}{a matrix. Contains the component scores (from the decomposition) of the compromise matrix.}
 #' \item{partial_component_scores}{list (of matrices). Contains the partial component scores per matrix (which was projected onto the compromise space)}
 #' \item{barycentric_partial_component_scores}{list (of matrices). Contains "barycentric" partial component scores. These are the \code{partial_component_scores} multipled by their respective weights (\code{alpha_weights} and the total number of tables. The mean of \code{barycentric_partial_component_scores} equals compromise_component_scores (hence, barycentric)}
-#' \item{compromise_decomposition_results}{list. Contains results from \code{GSVD::\link[GSVD]{tolerance.eigen}} which has \code{$vectors} and \code{$values} from an eigen-decomposition.}
+#' \item{compromise_decomposition_results}{list. Contains results from \code{GSVD::\link[GSVD]{tolerance_eigen}} which has \code{$vectors} and \code{$values} from an eigen-decomposition.}
 #' \item{compromise_matrix}{matrix. The compromise (weighted average) matrix of all matrices for decomposition.}
 #' \item{alpha_weights}{vector. The weights per matrix for use to create the compromise}
 #' \item{input_parameters}{list. This list contains the other input parameters for easier subsequent use: \code{matrix_norm_type}, \code{alpha_from_RV}, \code{tolerance}, \code{strictly_enforce_psd}}
@@ -81,12 +81,6 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
     stop("covstatis: At least one matrix in the 'cov_matrices' list was not a square and symmetric matrix.")
   }
 
-  if(tolerance < 0){
-    tolerance <- sqrt(.Machine$double.eps)
-  }
-
-  ## we are going to recycle the name cov_matrices and transform them each step along the way, as to not create new large lists.
-
   # (0) double center each R table as S
     cov_matrices %>%
       double_center_matrices(.) ->
@@ -94,7 +88,14 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
 
   ## a *strict* enforcement of PSD/PD
   if(strictly_enforce_psd){
+
+    if(tolerance < 0){
+      tolerance <- sqrt(.Machine$double.eps)
+    }
+
     stopifnot(all(sapply(cov_matrices, is_sspsd_matrix, tol = tolerance)))
+  }else{
+    tolerance <- NA ## so that we can get negative eigens, if that's what you're into.
   }
 
   # (1) Normalize each table
@@ -120,7 +121,7 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
 
 
   ## a *strict* enforcement of PSD/PD
-  if(!is_sspsd_matrix(compromise_matrix, tol=tolerance)){
+  if(!is_sspsd_matrix(compromise_matrix, tol=1e-13)){
     if(strictly_enforce_psd){
       stop("covstatis: compromise_matrix is not positive semi-definite within `tolerance`")
     }
@@ -129,28 +130,23 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
 
 
   # (4) eigen of compromise
-    ## this will need to become geigen() and then compute_partial_component_scores() will change
+    ## this will need to become geigen() someday and then compute_partial_component_scores() will change
   compromise_matrix %>%
-    tolerance.eigen(., symmetric = TRUE, tol = tolerance) ->
+    tolerance_eigen(., symmetric = TRUE, tol = tolerance) ->
     compromise_decomposition_results
 
-  ## here I need to ensure that tolerance.eigen or whatever is used actually sends back a class type
+  ## here I need to ensure that tolerance_eigen or whatever is used actually sends back a class type
     ## I should probably switch to geigen() and rely on that class.
 
   # (5) compute compromise component scores
   (compromise_decomposition_results$vectors %*% diag(sqrt(compromise_decomposition_results$values))) ->
     compromise_component_scores
 
-  ####
-  ##    BETWEEN HERE AND ABOVE IS EFFECTIVELY A "CORE" CROSS-PRODUCT STATIS
-  ####
-
   # (6) compute partial (table) component scores
   compute_partial_component_scores(cov_matrices, compromise_decomposition_results) ->
     partial_component_scores
 
   # (7) compute weighted partial (table) component scores
-    ### removed for now.
   compute_barycentric_partial_component_scores(partial_component_scores, alpha_weights) ->
     barycentric_partial_component_scores
 
@@ -163,6 +159,8 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
   partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
   barycentric_partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, barycentric_partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
 
+
+  ## should use a class here for the prints.
   return(list(
     compromise_component_scores = compromise_component_scores,
     partial_component_scores = partial_component_scores,

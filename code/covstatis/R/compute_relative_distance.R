@@ -1,3 +1,5 @@
+## DB: I don't recall what this was for.
+
 #' Compute individual component scores relative to compromise component score.
 #'
 #' TODO
