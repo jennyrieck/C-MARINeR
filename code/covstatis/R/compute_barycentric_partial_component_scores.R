@@ -15,6 +15,10 @@
 
 compute_barycentric_partial_component_scores <- function(partial_component_scores, alpha_weights){
 
+  ### it's possible that I can use this for either set of partial scores...
+
+  ## I should set up some safetys here, but later.
+
   # mapply("*", partial_component_scores, (alpha_weights * length(alpha_weights)), SIMPLIFY = FALSE, USE.NAMES = TRUE)
   mapply("*", partial_component_scores, alpha_weights * length(partial_component_scores), SIMPLIFY = FALSE, USE.NAMES = TRUE)
 

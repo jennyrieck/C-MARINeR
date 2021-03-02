@@ -4,8 +4,15 @@
 \alias{plot_covstatis}
 \title{TODO: TITLE}
 \usage{
-plot_covstatis(fi, fis, fi.cols = NULL, fis.cols = NULL, axes = c(1,
-  2), display.fi.names = T, display.fis.names = F)
+plot_covstatis(
+  fi,
+  fis,
+  fi.cols = NULL,
+  fis.cols = NULL,
+  axes = c(1, 2),
+  display.fi.names = T,
+  display.fis.names = F
+)
 }
 \arguments{
 \item{fi}{TODO}

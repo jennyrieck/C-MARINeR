@@ -13,4 +13,4 @@ Imports: GSVD,
   stats,
   graphics,
   magrittr
-RoxygenNote: 6.1.0
+RoxygenNote: 7.1.1

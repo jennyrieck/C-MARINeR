@@ -4,8 +4,10 @@
 \alias{compute_barycentric_partial_component_scores}
 \title{compute_barycentric_partial_component_scores: compute reweighted versions of \code{partial_component_scores} which are barycentric (mean is equal to compromise scores).}
 \usage{
-compute_barycentric_partial_component_scores(partial_component_scores,
-  alpha_weights)
+compute_barycentric_partial_component_scores(
+  partial_component_scores,
+  alpha_weights
+)
 }
 \arguments{
 \item{partial_component_scores}{list. A list of the partial component scores as computed from \code{compute_partial_component_scores}}

@@ -130,7 +130,9 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
 
 
   # (4) eigen of compromise
-    ## this will need to become geigen() someday and then compute_partial_component_scores() will change
+    ## this will need to become geigen() someday and then compute_covstatis_partial_component_scores() will change
+    ## the alternative here, too, is to use svd and ignore $v (so only use $u and $d)
+    ## however, I'm not a fan of that quite yet, as this currently helps illustrate the idea.
   compromise_matrix %>%
     tolerance_eigen(., symmetric = TRUE, tol = tolerance) ->
     compromise_decomposition_results
@@ -143,11 +145,13 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
     compromise_component_scores
 
   # (6) compute partial (table) component scores
-  compute_partial_component_scores(cov_matrices, compromise_decomposition_results) ->
+  compute_covstatis_partial_component_scores(cov_matrices, compromise_decomposition_results) ->
     partial_component_scores
 
+  ## perhaps the barycentric ones are to be dropped, as they sort of help illustrate the properties.
+
   # (7) compute weighted partial (table) component scores
-  compute_barycentric_partial_component_scores(partial_component_scores, alpha_weights) ->
+  compute_covstatis_barycentric_partial_component_scores(partial_component_scores, alpha_weights) ->
     barycentric_partial_component_scores
 
   ####
