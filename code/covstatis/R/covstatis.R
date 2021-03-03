@@ -150,9 +150,9 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
 
   ## perhaps the barycentric ones are to be dropped, as they sort of help illustrate the properties.
 
-  # (7) compute weighted partial (table) component scores
-  compute_covstatis_barycentric_partial_component_scores(partial_component_scores, alpha_weights) ->
-    barycentric_partial_component_scores
+  # # (7) compute weighted partial (table) component scores
+  # compute_covstatis_barycentric_partial_component_scores(partial_component_scores, alpha_weights) ->
+  #   barycentric_partial_component_scores
 
   ####
   ##    BETWEEN HERE AND ABOVE IS EFFECTIVELY A "CORE" CROSS-PRODUCT STATIS
@@ -161,14 +161,14 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
 
   rownames(compromise_component_scores) <- rownames(cov_matrices[[1]]) -> rownames(compromise_decomposition_results$vectors)
   partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
-  barycentric_partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, barycentric_partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
+  # barycentric_partial_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, barycentric_partial_component_scores, cov_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
 
 
   ## should use a class here for the prints.
   return(list(
     compromise_component_scores = compromise_component_scores,
     partial_component_scores = partial_component_scores,
-    barycentric_partial_component_scores = barycentric_partial_component_scores,
+    # barycentric_partial_component_scores = barycentric_partial_component_scores,
     compromise_decomposition_results = compromise_decomposition_results,
     compromise_matrix = compromise_matrix,
     alpha_weights = alpha_weights,

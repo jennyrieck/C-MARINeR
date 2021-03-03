@@ -49,7 +49,7 @@ kplus1.covstatis <- function(Sk.array,Sk.target){
     cross.prod.cross.prod[,,i] <- crossprod(crossprod(dbl.cent.X[,,i],dbl.cent.network), crossprod(dbl.cent.X[,,i],dbl.cent.network))
     Zmat[,i] <- c(cross.prod.cross.prod[,,i])
   }
-  get.alphas <- tolerance.svd(expo.scale(Zmat,scale="SS1"))
+  get.alphas <- tolerance_svd(expo.scale(Zmat,scale="SS1"))
   alphas <- get.alphas$v[,1] / sum(get.alphas$v[,1])
   
   compromise.Sk <- matrix(0,nrow(Sk.array),nrow(Sk.array))
@@ -63,7 +63,7 @@ kplus1.covstatis <- function(Sk.array,Sk.target){
   dim.keepers <- which(kplus1covstats.res$values > sqrt(.Machine$double.eps))
   kplus1covstats.res$values <- kplus1covstats.res$values[dim.keepers]
   kplus1covstats.res$vectors <- kplus1covstats.res$vectors[,dim.keepers]
-  rownames(kplus1covstats.res$vectors) <- rownames(base.network)
+  rownames(kplus1covstats.res$vectors) <- rownames(Sk.target)
   
   fi <- kplus1covstats.res$vectors %*% diag(sqrt(kplus1covstats.res$values))
   ### ok so now figure out projections...

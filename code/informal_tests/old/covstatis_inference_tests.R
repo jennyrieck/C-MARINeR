@@ -1,0 +1,91 @@
+
+library(tidyverse)
+library(devtools)
+library(GSVD)
+
+load_all()
+
+# load('/Professional/Data/TinyNKI/connectivity_cubes.rda')
+load('/Data/TinyNKI/connectivity_cubes.rda')
+
+
+cor_covstatis_results <- covstatis(conn.cube.tog, strictly_enforce_psd = FALSE)
+
+
+### note for us: the three different ways of producing bootstrap results (easily) give effectively the same results here.
+
+# ### this is way slower than it should be...
+covstatis_bootstrap_compromise_results <- covstatis_bootstrap_compromise(conn.cube.tog, cor_covstatis_results, iterations = 100)
+covstatis_bootstrap_scores_results_bary <- covstatis_bootstrap_scores(cor_covstatis_results, iterations = 100, use_barycentric=TRUE)
+covstatis_bootstrap_scores_results <- covstatis_bootstrap_scores(cor_covstatis_results, iterations = 100, use_barycentric=FALSE)
+
+
+plot(cor_covstatis_results$compromise_component_scores)
+points(apply(simplify2array(covstatis_bootstrap_compromise_results$boot_compromise_component_scores),c(1,2), mean), col="red", pch=20)
+points(apply(simplify2array(covstatis_bootstrap_scores_results$boot_compromise_component_scores),c(1,2), mean), col="blue", pch=20)
+points(apply(simplify2array(covstatis_bootstrap_scores_results_bary$boot_compromise_component_scores),c(1,2), mean), col="green", pch=20)
+
+
+### need to perform a single bootstrap resample here ot project a new set of scores
+### then I also need to do that by using only the "barycentric" scores
+
+
+# 
+# conn.cube.tog <- covstatis::array2list(conn.cube.tog)
+# 
+# # cor_covstatis_results
+# ### test it here...
+# bootstrap_sample <- sample(1:length(conn.cube.tog), replace = T)
+# 
+# conn.cube.tog[bootstrap_sample] %>%
+#   double_center_matrices(.) ->
+#   boot_cov_matrices
+# 
+# 
+# ## (1) make the alphas
+# boot_cov_matrices %>%
+#   normalize_matrices(., matrix_norm_type = cor_covstatis_results$input_parameters$matrix_norm_type) ->
+#   boot_cov_matrices
+# 
+# boot_cov_matrices %>%
+#   lapply(., c) %>%
+#   do.call(cbind, .) %>%
+#   compute_alphas(., alpha_from_RV = cor_covstatis_results$input_parameters$alpha_from_RV) ->
+#   boot_alpha_weights
+# 
+# 
+# boot_compromise <- make_compromise_matrix(boot_cov_matrices, boot_alpha_weights)
+# 
+# ## (2 & 3) make compromise & project
+# make_compromise_matrix(boot_cov_matrices, boot_alpha_weights) %*% (cor_covstatis_results$compromise_decomposition_results$vectors %*% diag(1/sqrt(cor_covstatis_results$compromise_decomposition_results$values))) ->
+#   boot_compromise_component_scores
+# 
+# 
+# 
+# ### this is way slower than it should be...
+covstatis_inference_results <- covstatis_inference(conn.cube.tog, cor_covstatis_results)
+# 
+# 
+# apply(simplify2array(covstatis_inference_results$covstatis_bootstrap_results$boot_compromise_component_scores),c(1,2), mean)
+
+plot(cor_covstatis_results$compromise_component_scores)
+points(apply(simplify2array(covstatis_inference_results$covstatis_bootstrap_results$boot_compromise_component_scores),c(1,2), mean), col="red", pch=20)
+
+
+
+
+### resampling approach
+
+boot_compromise_component_scores_list <- list()
+
+for(i in 1:100){
+  
+  ## bootstrap
+  bootstrap_sample <- sample(1:length(cor_covstatis_results$barycentric_partial_component_scores), replace = T)
+  
+  apply(simplify2array(cor_covstatis_results$barycentric_partial_component_scores[bootstrap_sample]),c(1,2),mean) ->
+    boot_compromise_component_scores_list[[i]]
+  
+
+}
+

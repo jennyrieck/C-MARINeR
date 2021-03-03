@@ -45,9 +45,11 @@ kplus1_covstatis <- function(cov_matrices, target_cov_matrix, matrix_norm_type =
 
     stopifnot(all(sapply(cov_matrices, is_sspsd_matrix, tol = tolerance)))
     stopifnot(is_sspsd_matrix(target_cov_matrix, tol = tolerance))
-  }else{
-    tolerance <- NA ## so that we can get negative eigens, if that's what you're into.
   }
+  ## because this is the SVD, we can do both, instead of making a choice like with the eigen.
+  # else{
+  #   tolerance <- NA ## so that we can get negative eigens, if that's what you're into.
+  # }
 
   # (1.a) Normalize each table
   cov_matrices %>%
@@ -99,10 +101,15 @@ kplus1_covstatis <- function(cov_matrices, target_cov_matrix, matrix_norm_type =
     compromise_target_matrix_component_scores
 
 
+
+  ###### i believe the projection matrix/partial scores are wrong.
+  ### NEED TO STEP BACK AND TRY THIS OUT FROM THE DECOMP RESULTS.
+
   #### these are not sufficient anymore, we need both sides.
   ### make own functions here.
 
   # (7) compute partial (table) component scores
+    ### what if this is supposed to be the cov_matrices?
   compute_kplus1covstatis_partial_component_scores(cross_matrices, compromise_decomposition_results) ->
     partial_cross_matrices_component_scores
 
@@ -113,26 +120,27 @@ kplus1_covstatis <- function(cov_matrices, target_cov_matrix, matrix_norm_type =
 
   ## perhaps the barycentric ones are to be dropped, as they sort of help illustrate the properties.
 
-  # (8a) compute weighted partial (table) component scores
-  compute_barycentric_partial_component_scores(partial_component_scores, alpha_weights) ->
-    barycentric_partial_cross_matrices_component_scores
-  # (8b) compute weighted target component scores
-  compute_barycentric_partial_component_scores(rep(list(compromise_target_matrix_component_scores), length(alpha_weights)), alpha_weights) ->
-    barycentric_partial_target_component_scores
+  # # (8a) compute weighted partial (table) component scores
+  # compute_barycentric_partial_component_scores(partial_component_scores, alpha_weights) ->
+  #   barycentric_partial_cross_matrices_component_scores
+  # # (8b) compute weighted target component scores
+  # compute_barycentric_partial_component_scores(rep(list(compromise_target_matrix_component_scores), length(alpha_weights)), alpha_weights) ->
+  #   barycentric_partial_target_component_scores
 
 
   rownames(compromise_cross_matrices_component_scores) <- rownames(target_cov_matrix) -> rownames(compromise_decomposition_results$v)
 
   rownames(compromise_cross_matrices_component_scores) <- rownames(cov_matrices[[1]]) -> rownames(compromise_decomposition_results$u)
   partial_cross_matrices_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, partial_cross_matrices_component_scores, cross_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
-  barycentric_partial_cross_matrices_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, barycentric_partial_cross_matrices_component_scores, cross_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
+  # barycentric_partial_cross_matrices_component_scores <- mapply(function(scores,covs){rownames(scores) <- rownames(covs); scores}, barycentric_partial_cross_matrices_component_scores, cross_matrices, SIMPLIFY = FALSE, USE.NAMES = TRUE)
 
 
   ## should use a class here for the prints.
   return(list(
     compromise_cross_matrices_component_scores = compromise_cross_matrices_component_scores,
-    partial_component_scores = partial_component_scores,
-    barycentric_partial_component_scores = barycentric_partial_component_scores,
+    compromise_target_matrix_component_scores = compromise_target_matrix_component_scores,
+    partial_cross_matrices_component_scores = partial_cross_matrices_component_scores,
+    # barycentric_partial_component_scores = barycentric_partial_component_scores,
     compromise_decomposition_results = compromise_decomposition_results,
     compromise_matrix = compromise_matrix,
     alpha_weights = alpha_weights,
