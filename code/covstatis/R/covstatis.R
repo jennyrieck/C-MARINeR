@@ -137,6 +137,9 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
     tolerance_eigen(., symmetric = TRUE, tol = tolerance) ->
     compromise_decomposition_results
 
+    ## this now let's me call the same function but with the class to handle it.
+  # class(compromise_decomposition_results) <- c("covstatis","eigen")
+
   ## here I need to ensure that tolerance_eigen or whatever is used actually sends back a class type
     ## I should probably switch to geigen() and rely on that class.
 
@@ -145,6 +148,7 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
   ## quick rethink: the scores should come from a function
     ## so the partial scores should too, and all of it should come from the decoposition results
   ### also make this as dead simple as possible.
+    ### DEAD SIMPLE!!!
   ### this is striking a balance between illustrative and functional, not end goal.
 
   # (5) compute compromise component scores
@@ -152,21 +156,10 @@ covstatis <- function(cov_matrices, matrix_norm_type = "MFA", alpha_from_RV = TR
     compromise_component_scores
 
 
-
   # (6) compute partial (table) component scores
-    ### break this out, even if it uses a loop (for clarity)
-    ### that projection_matrix is actually improtant for subsequent use.
-  # compute_covstatis_partial_component_scores(cov_matrices, compromise_decomposition_results) ->
-  #   partial_component_scores
+  compute_covstatis_partial_component_scores(cov_matrices, compromise_decomposition_results) ->
+    partial_component_scores
 
-  # (6) compute the projection matrix
-  (compromise_decomposition_results$vectors %*% diag(1/sqrt(compromise_decomposition_results$values))) ->
-    projection_matrix
-
-  # (7) compute partial (table) component scores
-
-
-  ## perhaps the barycentric ones are to be dropped, as they sort of help illustrate the properties.
 
   # # (7) compute weighted partial (table) component scores
   # compute_covstatis_barycentric_partial_component_scores(partial_component_scores, alpha_weights) ->
