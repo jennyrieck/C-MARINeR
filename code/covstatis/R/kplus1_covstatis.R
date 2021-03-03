@@ -72,6 +72,21 @@ kplus1_covstatis <- function(cov_matrices, target_cov_matrix, matrix_norm_type =
   ###### LIKE IN COVSTATIS, THE FOLLOWING STEPS HELP SHOW A "CORE" FUNCTION COULD BE CREATED
     ## alphas, compromise, decompose, (compromise) scores
 
+
+  stop()
+
+  ### actually, this could also be an issue, as the alpha comes from vectors $v
+  ### so I need to return to the K+1 model (which I had previously) or go towards the DOUBLE-STATIS model
+    ### probably more easily solved via eq. 125
+    ### which actually makes this super easy, as I can just call most of the regular covstatis pipeline
+    ### the additional or alternate is eq 135, which gives us two STATIS, but, this doesn't quite map onto that.
+
+    ### I suppose from eq. 125, we could provide two decompositions, or at least two projections
+      ### yeah, return to these later.
+
+  ### also, it's possible that these steps are OK, I just need to be clearer about what we're doing
+    ### though I think the issue still remains on solving the barycentric scores.
+
   # (3) alphas
   cross_matrices %>%
     compute_alphas(., alpha_from_RV = alpha_from_RV) ->
